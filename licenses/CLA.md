@@ -2,7 +2,7 @@
 
 **International Business Machines, Inc. (IBM)**
 
-https://github.com/Watson-Explorer/WEX-Engine-Relevancy-Profiler/CLA.md
+[https://github.com/Watson-Explorer/WEX-Engine-Relevancy-Profiler/CLA.md](https://github.com/IBM-Watson/wex-engine-relevancy-profiler/blob/master/licenses/CLA.md)
 
 
 Thank you for your interest in the WEX-Engine-Relevancy-Profiler project ("the Project").
