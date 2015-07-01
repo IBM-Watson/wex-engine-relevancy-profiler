@@ -19,12 +19,12 @@ Every Engine instance that you will be searching will require the [xml-feed-disp
 
 To add the custom XML Feed Display node to your Engine configuration use the following steps.
 
-1. Click the + sign next to XML on the left side menu to add a new XML node.
+1. Click the `+` sign next to XML on the left side menu to add a new XML node.
 2. Edit the name field to be `xml-feed-display-debug`
-3. Edit the node field to be `function`
-4. Click OK.
-5. Click the `View XML` link on the newly created, empty node.  Then click `edit`.
-6. Copy and paste the contents of the entire [xml-feed-display-debug.xml](/engine/xml-feed-display-debug.xml) file into the editing text box.  Click OK.
+3. Edit the element field to be `function`
+4. Click `Add`.
+5. Copy and paste the contents of the entire [xml-feed-display-debug.xml](/engine/xml-feed-display-debug.xml) file into the editing text box.
+6. Click OK.
 
 There should now be a display node named xml-feed-display-debug available in your Engine instance.  Since the relevancy profiler sets the display property at query time, no other actions are necessary.
 
