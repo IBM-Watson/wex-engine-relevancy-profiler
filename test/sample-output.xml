@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<vce>
+  <param name="v:project" value="query-meta"/>
+  <param name="query" value="horse"/>
+  <param name="render.function" value="xml-feed-display-debug"/>
+  <binning base-url="http://localhost:9080/vivisimo/cgi-bin/query-meta.exe?&amp;v:project=query-meta&amp;query=horse&amp;render.function=xml-feed-display-debug&amp;binning-state=">
+    <binning-set label="Year of Publication" bs-id="yop">
+      <binning-range interval="10" br-id="|10|"/>
+      <bin br-id="|10|" low="1990" high="2000" ndocs="2" token="yop=1990:2000"/>
+      <bin br-id="|10|" low="1980" high="1990" ndocs="1" token="yop=1980:1990"/>
+    </binning-set>
+    <binning-set label="Hero" bs-id="hero">
+      <bin label="Edward Nice" ndocs="1" token="hero==Edward Nice"/>
+      <bin label="Gwen Wyke" ndocs="1" token="hero==Gwen Wyke"/>
+      <bin label="Tommy Flat" ndocs="1" token="hero==Tommy Flat"/>
+    </binning-set>
+    <binning-state separator="%0A%0A"/>
+  </binning>
+  <added-source test-strictly="test-strictly" name="iopro-sm-spotlights" type="vse" products="core" over-request="1.3" num="10" status="queried" requested="10" admin-url="http://localhost:9080/vivisimo/cgi-bin/admin.exe" vse-vse="vse-vse" query-xml-supported="query-xml-supported" cached="cached" stoplist="none" stem2="none" stem="depluralize" total-results-with-duplicates="0" retrieval-ms="1" search-ms="2" total-results="0">
+    <parse url="http://127.0.0.1:7205/search?query-xml=%3coperator%20logic%3d%22and%22%3e%3coperator%20logic%3d%22or%22%3e%3cterm%20field%3d%22query%22%20str%3d%22horse%22%20position%3d%220%22%20processing%3d%22strict%22%20input-type%3d%22user%22%20%2f%3e%3cterm%20field%3d%22type%22%20str%3d%22alert%22%20%2f%3e%3c%2foperator%3e%3cterm%20field%3d%22spotlight-collection%22%20str%3d%22vz-test-spotlights%22%20%2f%3e%3cterm%20field%3d%22environment%22%20str%3d%221%22%20%2f%3e%3coperator%20logic%3d%22not%22%3e%3coperator%20logic%3d%22content%22%3e%3cterm%20field%3d%22query%22%20str%3d%22preview%22%20processing%3d%22strict%22%20input-type%3d%22user%22%20%2f%3e%3c%2foperator%3e%3c%2foperator%3e%3c%2foperator%3e&amp;binning-mode=normal&amp;force-binning=0&amp;max=15&amp;start=0&amp;num=10&amp;staging=0&amp;collection=iopro-sm-spotlights&amp;r-o-p=0&amp;sort-keys=1&amp;shingles=1&amp;summarize=1&amp;cache=1&amp;cache-data=0&amp;score=0&amp;show-duplicates=0&amp;gen-key=0&amp;n-collapse=0&amp;collapsed-binning=0" start-time="95" end-time="115" http-status="200 OK" status="fetched processed parsed"/>
+  </added-source>
+  <added-source name="example-source-bundle" display-name="Example Sources" products="core" test-strictly="test-strictly" type="bundle" no-override="no-override" over-request="1.3" num="200" retrieved="3">
+    <added-source products="core" name="example-news-bundle" display-name="Example News Sources" type="bundle" no-override="no-override">
+      <added-source internal="7.x" display-name="BBC News" logo="/images/logos/bbc.gif" name="BBCNews" products="core" source-type="news" test-strictly="test-strictly" type="ref" status="queried" requested="140" total-results="0">
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=4" start-time="129" end-time="320" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=1" start-time="129" end-time="321" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=5" start-time="129" end-time="321" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=2" start-time="129" end-time="333" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=7" start-time="129" end-time="333" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=6" start-time="129" end-time="334" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search/news/?text=on&amp;q=horse&amp;page=3" start-time="129" end-time="335" http-status="301 Moved Permanently" status="redirected"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=6" start-time="334" end-time="1160" http-status="200 OK" status="fetched processed parsed"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=5" start-time="322" end-time="1171" http-status="200 OK" status="fetched processed parsed"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=7" start-time="334" end-time="1235" http-status="200 OK" status="fetched processed parsed"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=3" start-time="335" end-time="1264" http-status="200 OK" status="fetched processed parsed"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=4" start-time="321" end-time="1378" http-status="200 OK" status="fetched processed parsed"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=2" start-time="333" end-time="1428" http-status="200 OK" status="fetched processed parsed"/>
+        <parse url="http://www.bbc.co.uk/search?v2=true&amp;text=on&amp;q=horse&amp;page=1" start-time="321" end-time="1458" http-status="200 OK" status="fetched processed parsed"/>
+      </added-source>
+    </added-source>
+    <added-source test-strictly="test-strictly" name="example-metadata" products="core" type="vse" no-override="no-override" status="queried" requested="130" admin-url="http://localhost:9080/vivisimo/cgi-bin/admin.exe" vse-vse="vse-vse" query-xml-supported="query-xml-supported" cached="cached" stoplist="none" stem2="none" stem="depluralize" total-results-with-duplicates="3" retrieval-ms="1" search-ms="3" total-results="3" retrieved="3">
+      <parse url="http://127.0.0.1:7205/search?query-xml=%3cterm%20field%3d%22query%22%20str%3d%22horse%22%20position%3d%220%22%20processing%3d%22strict%22%20input-type%3d%22user%22%20%2f%3e&amp;binning-mode=double&amp;force-binning=0&amp;max=195&amp;start=0&amp;num=130&amp;staging=0&amp;collection=example-metadata&amp;r-o-p=0&amp;sort-keys=1&amp;shingles=1&amp;summarize=1&amp;cache=1&amp;cache-data=0&amp;score=0&amp;show-duplicates=0&amp;gen-key=0&amp;n-collapse=0&amp;collapsed-binning=0" start-time="128" end-time="158" http-status="200 OK" status="fetched processed parsed" retrieved="3"/>
+    </added-source>
+  </added-source>
+  <added-source name="spelling-example-meta" maintainers="mkeeling" test-strictly="test-strictly" type="ref" elt-id="2" max-elt-id="6" modified="1427814184" modified-by="mkeeling@IBM" requested="1">
+    <parse url="http://localhost:9080/vivisimo/cgi-bin/spelling-corrector.exe?xml=%3coperator%20logic%3d%22and%22%3e%3cterm%20field%3d%22query%22%20str%3d%22horse%22%20position%3d%220%22%20processing%3d%22strict%22%20input-type%3d%22user%22%2f%3e%3c%2foperator%3e&amp;dict=%3c%3fxml%20version%3d%221.0%22%20encoding%3d%22UTF-8%22%3f%3e%0a%3cspelling-corrector-configuration%3e%3cspelling-corrector-field%20dictionary%3d%22example-meta%22%2f%3e%3c%2fspelling-corrector-configuration%3e%0a&amp;" start-time="129" end-time="209" http-status="200 OK" status="fetched processed parsed"/>
+  </added-source>
+  <list path="" num="3" level="0" start="0" per="10">
+    <document vse-key="file://:80/C:\Program Files\IBM\WEX\Engine/examples/data/metadata-example/sudden_stop.html/" url="file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/sudden_stop.html" la-score="0.1" vse-base-score="1.5" rank="0" source="example-metadata" score="0.111111" truncated-url="file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/sudden_stop.html" context="http://localhost:9080/vivisimo/cgi-bin/query-meta.exe?v%3afile=viv_3IOIWZ&amp;v%3astate=%28root%29%7croot&amp;v%3aframe=tree&amp;subquery=id%3aNdoc0&amp;active%3d=root&amp;v%3asubsearch=1&amp;">
+      <content name="size" type="text">1651</content>
+      <content name="last-modified" type="text">Sep 12,
+  2014 03:00:34 GMT</content>
+      <content name="language" type="text">english</content>
+      <content type="text" name="title">Sudden Stop</content>
+      <content name="genre" type="html">Fiction</content>
+      <content name="year" type="html">1997</content>
+      <content name="datesecs" type="html">852094800</content>
+      <content name="hero" type="html">Gwen Wyke</content>
+      <content name="author" type="html">Lucy Spring</content>
+      <content name="publisher" type="html">Kenlon-Dill Inc</content>
+      <content name="sales_2008" type="html">$12034</content>
+      <content name="sales_2009" type="html">$8043</content>
+      <content name="sales_2010" type="html">$9468</content>
+      <content name="sales_2011" type="html">$7047</content>
+      <content name="snippet" type="html">&lt;span class="vivbold qt0"&gt;Horses&lt;/span&gt; are all that Gwen Wyke thinks about: every day, every night, and even in her dreams.  ... a dream job for Gwen, and transporting champion &lt;span class="vivbold qt0"&gt;horses&lt;/span&gt; between tracks gives her an opportunity to interact  ... </content>
+    </document>
+    <document vse-key="file://:80/C:\Program Files\IBM\WEX\Engine/examples/data/metadata-example/lonely_digits.html/" url="file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/lonely_digits.html" la-score="0.1" vse-base-score="1" rank="1" source="example-metadata" score="0.1" truncated-url="file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/lonely_digits.html" context="http://localhost:9080/vivisimo/cgi-bin/query-meta.exe?v%3afile=viv_3IOIWZ&amp;v%3astate=%28root%29%7croot&amp;v%3aframe=tree&amp;subquery=id%3aNdoc1&amp;active%3d=root&amp;v%3asubsearch=1&amp;">
+      <content name="size" type="text">1479</content>
+      <content name="last-modified" type="text">Sep 12,
+  2014 03:00:34 GMT</content>
+      <content name="language" type="text">english</content>
+      <content type="text" name="title">Lonely Digits</content>
+      <content name="genre" type="html">Fiction</content>
+      <content name="year" type="html">1982</content>
+      <content name="datesecs" type="html">378709200</content>
+      <content name="hero" type="html">Tommy Flat</content>
+      <content name="author" type="html">Fran Richards</content>
+      <content name="publisher" type="html">Hagen Haus</content>
+      <content name="sales_2008" type="html">$12310</content>
+      <content name="sales_2009" type="html">$22012</content>
+      <content name="sales_2010" type="html">$32103</content>
+      <content name="sales_2011" type="html">$29313</content>
+      <content name="snippet" type="html"> ... a gambling habit
+that sees him at the &lt;span class="vivbold qt0"&gt;horse&lt;/span&gt; track every night and drowning his sorrows
+in  ... </content>
+    </document>
+    <document vse-key="file://:80/C:\Program Files\IBM\WEX\Engine/examples/data/metadata-example/manx.html/" url="file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/manx.html" la-score="0.1" vse-base-score="1" rank="2" source="example-metadata" score="0.0909091" truncated-url="file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/manx.html" context="http://localhost:9080/vivisimo/cgi-bin/query-meta.exe?v%3afile=viv_3IOIWZ&amp;v%3astate=%28root%29%7croot&amp;v%3aframe=tree&amp;subquery=id%3aNdoc2&amp;active%3d=root&amp;v%3asubsearch=1&amp;">
+      <content name="size" type="text">1416</content>
+      <content name="last-modified" type="text">Sep 12,
+  2014 03:00:34 GMT</content>
+      <content name="language" type="text">english</content>
+      <content type="text" name="title">Manx</content>
+      <content name="genre" type="html">Fiction</content>
+      <content name="year" type="html">1998</content>
+      <content name="datesecs" type="html">883630800</content>
+      <content name="hero" type="html">Edward Nice</content>
+      <content name="author" type="html">Clive McDonald</content>
+      <content name="publisher" type="html">Jeffries Publishing House</content>
+      <content name="sales_2008" type="html">$18232</content>
+      <content name="sales_2009" type="html">$15002</content>
+      <content name="sales_2010" type="html">$29111</content>
+      <content name="sales_2011" type="html">$11022</content>
+      <content name="snippet" type="html"> ... around the tiny island. Will he have the &lt;span class="vivbold qt0"&gt;horse&lt;/span&gt; power and skills to
+emerge victorious?</content>
+    </document>
+  </list>
+  <tree base-url="http://localhost:9080/vivisimo/cgi-bin/query-meta.exe?v%3afile=viv_3IOIWZ&amp;v:state=" recluster-base-url="http://localhost:9080/vivisimo/cgi-bin/query-meta.exe?v%3afile=viv_3IOIWZ&amp;">
+    <node type="top" id="N4" level="0" ndocs="3" active="1" subnodes="0" ts="|root" ls="root|root" bs="|root">
+      <node type="document" id="N0" level="1" ndocs="1" ts="(root)|root" ls="root|N0" bs="(root)|N0">
+        <description>Sudden, Stop</description>
+      </node>
+      <node type="document" id="N1" level="1" ndocs="1" ts="(root)|root" ls="root|N1" bs="(root)|N1">
+        <description>Lonely, Digits</description>
+      </node>
+      <node type="document" id="N2" level="1" ndocs="1" ts="(root)|root" ls="root|N2" bs="(root)|N2">
+        <description>Manx, House</description>
+      </node>
+    </node>
+  </tree>
+</vce>

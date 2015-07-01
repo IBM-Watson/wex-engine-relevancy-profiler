@@ -1,0 +1,38 @@
+<function name="xml-feed-display-debug" type="display">
+  <prototype />
+  <call-function name="xml-feed-display" />
+  <call-function name="free-xsl">
+    <with name="xsl"><![CDATA[<xsl:template match="document">
+  <xsl:element name="document">
+    <xsl:copy-of
+      select="@boost-name|@boost-display|@url|@display-url|@cache|@source|@rank|@score|@vse-base-score|@filetypes|@la-score|@vse-key"
+    />
+    <xsl:attribute name="truncated-url">
+      <xsl:value-of
+        select="viv:if-else($max-url-length = '-1', @url, viv:url-truncate(@url,$max-url-length))"
+      />
+    </xsl:attribute>
+    <xsl:attribute name="context">
+      <xsl:value-of
+        select="disp:absolute-url(viv:url-add-non-void-params($url-file, $sp, $state, $fp, 'tree', 'subquery', concat('id:', @id), 'active=', /*/tree/@ls, $ssp, '1'))"
+      />
+    </xsl:attribute>
+
+    <xsl:apply-templates select="content[not(@action='discard')]" />
+
+    <xsl:variable name="this-doc" select="." />
+    <xsl:if test="@duplicates">
+      <xsl:element name="duplicate-sources">
+        <xsl:for-each select="viv:tokenize(@duplicates)">
+          <xsl:variable name="doc-id" select="." />
+          <xsl:apply-templates
+            select="$this-doc/following-sibling::document[@id = $doc-id]" mode="duplicate"
+          />
+        </xsl:for-each>
+      </xsl:element>
+    </xsl:if>
+  </xsl:element>
+</xsl:template>
+]]></with>
+  </call-function>
+</function>

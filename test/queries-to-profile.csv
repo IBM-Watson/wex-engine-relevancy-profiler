@@ -1,0 +1,6 @@
+query,source,expected url
+automobile,example-metadata,file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/slow_leak.html,1
+1983 WITHIN CONTENT year,example-metadata,file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/world_champion.html,
+horse,example-metadata,file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/lonely_digits.html,2
+horse,example-metadata,will not find,2
+blarg,example-metadata,file:///C%3a%5cProgram%20Files%5cIBM%5cWEX%5cEngine/examples/data/metadata-example/lonely_digits.html,
