@@ -323,6 +323,10 @@ public class VelocityQuery {
 	        
 			return doc.getElementsByTagName("document");
 		} catch(Exception e) {
+//			System.out.println("XXXXXX");
+			System.out.println(xml);  // need to consider some logging here so it's easier to diagnose stupid problems
+//			System.out.println("XXXXXX");
+			System.out.flush();
 			e.printStackTrace();
 		}
 		

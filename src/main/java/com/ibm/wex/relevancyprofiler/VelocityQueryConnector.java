@@ -14,11 +14,10 @@ public class VelocityQueryConnector implements IVelocityConnector {
 	@Override
 	public String doQuery(String urlRoot, String project, int maxCount, VelocityQuery q) {
 		try {
-    		String urlString = urlRoot + CreateCgiParams(q.getQuery(), q.getBundle(), project, maxCount); 
-			
-    		// System.out.println(urlString);
+    		String urlString = urlRoot + CreateCgiParams(q.getQuery(), q.getBundle(), project, maxCount);
     		
     		System.out.println("query = " + q.getQuery());
+//			System.out.println(urlString);
     		
 			URL url = new URL(urlString);
 			

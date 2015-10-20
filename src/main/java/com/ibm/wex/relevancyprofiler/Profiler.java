@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 
 import com.ibm.wex.relevancyprofiler.filters.*;
 
@@ -70,47 +74,34 @@ public class Profiler {
 	
 
 	private static ProfilingSession ReadInputFile() {
-        File file = new File(_inPath);
-        BufferedReader reader = null;
-        
+        File csvFile = new File(_inPath);
         ProfilingSession queries = null;
+		int lineNumber = 0;
 
         try {
-            reader = new BufferedReader(new FileReader(file));
-            
     		queries = new ProfilingSession(_urlRoot, _project, _maxResults, _numberOfThreads);
-            
-            String line = reader.readLine();
-            
-            // assume the first line is the header
-            if (line != null) {
-            	line = reader.readLine();
-            }
-            
-            while (line != null) {
-            	String[] fields = line.split(",");
-            	
-            	if (fields.length >= 3) {
-            		// CSV format: query,source,expectedUrl,expectedRank
-            		
-            		// Defaults to the top 10 XXX magic number
-            		int expectedRank = 10;
-            		if (fields.length == 4) {
-            			try {
-            				expectedRank = Integer.parseInt(fields[3]);
-            			}
-            			catch (Exception ex) {
-            				// don't care... just don't crash, and don't break from the loop
-            			}
-            		}
-            		
-            		queries.addExpectation(fields[0], fields[1], fields[2], expectedRank);
-            	}
-            	else {
-            		System.out.println("Check this line: " + line);
-            	}
-            	
-                line = reader.readLine();
+
+			CSVParser parser = CSVParser.parse(csvFile, Charset.defaultCharset(), CSVFormat.DEFAULT);
+			for (CSVRecord queryRecord : parser) {
+				// CSV format: query,source,expectedUrl,expectedRank
+				if (queryRecord.getRecordNumber() < 3){
+					System.out.println("Potential problem on line: " + lineNumber);
+				}
+				else {
+
+
+					String query = queryRecord.get(0);
+					String source = queryRecord.get(1);
+					String expectedUrl = queryRecord.get(2);
+
+					int expectedRank = 10;
+					if (queryRecord.getRecordNumber() > 3) {
+						expectedRank = Integer.parseInt(queryRecord.get(3));
+					}
+
+					queries.addExpectation(query, source, expectedUrl, expectedRank);
+				}
+				lineNumber++;
             }
         }
         catch (FileNotFoundException e) {
@@ -119,17 +110,12 @@ public class Profiler {
         catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("failed at line: " + lineNumber);
+		}
+
+		System.out.println("Read + " + lineNumber + " lines.");
         return queries;
 	}
 	
