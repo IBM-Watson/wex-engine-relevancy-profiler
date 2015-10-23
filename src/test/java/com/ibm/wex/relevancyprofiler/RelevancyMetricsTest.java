@@ -1,4 +1,4 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
 
 import org.junit.After;
@@ -23,6 +23,8 @@ public abstract class RelevancyMetricsTest {
 	public VelocityDocument getTestDoc1() { return _testDoc1; }
 	public VelocityDocument getTestDoc2() { return _testDoc2; }
 	public MockVelocityQueryConnector getMock() { return _mock; }
+
+	public double getDelta() { return 0.01; }
 	
 	
 	@Before

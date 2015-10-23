@@ -1,22 +1,14 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
 
 import java.util.List;
 
-import junit.framework.Assert;
+import com.ibm.wex.relevancyprofiler.filters.*;
 
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.ibm.wex.relevancyprofiler.ProfilingSession;
-import com.ibm.wex.relevancyprofiler.VelocityDocument;
-import com.ibm.wex.relevancyprofiler.filters.ExpectedNotFoundFilter;
-import com.ibm.wex.relevancyprofiler.filters.ExpectedResultsFilter;
-import com.ibm.wex.relevancyprofiler.filters.FirstHitsFilter;
-import com.ibm.wex.relevancyprofiler.filters.IResultsFilter;
-import com.ibm.wex.relevancyprofiler.filters.QueriesWithNoResultsFilter;
-
 
 
 public class FiltersTests {
@@ -68,7 +60,7 @@ public class FiltersTests {
 		_session.searchVelocity(new MockVelocityQueryConnector());
 		
 		IResultsFilter filter = new QueriesWithNoResultsFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(1, results.size());
 	}
 	
@@ -80,9 +72,15 @@ public class FiltersTests {
 		_session.searchVelocity(_mock);
 		
 		IResultsFilter filter = new ExpectedResultsFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(1, results.size());
-		Assert.assertEquals("blag,bundle," + _testDoc2.toString(), results.get(0));
+
+        FilterRecord expected = new FilterRecord();
+        expected.addField("blag");
+        expected.addField("bundle");
+        expected.addFields(_testDoc2.toString().split(","));
+
+        Assert.assertEquals(expected, results.get(0));
 	}
 	
 	
@@ -96,10 +94,17 @@ public class FiltersTests {
 		_session.searchVelocity(_mock);
 		
 		IResultsFilter filter = new ExpectedResultsFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
+
+        FilterRecord expected1 = new FilterRecord().addField("blag").addField("bundle");
+        expected1.addFields(_testDoc1.toString().split(","));
+
+        FilterRecord expected2 = new FilterRecord().addField("JOJO").addField("bundle");
+        expected2.addFields(_testDoc2.toString().split(","));
+
 		Assert.assertEquals(2, results.size());
-		Assert.assertEquals("blag,bundle," + _testDoc1.toString(), results.get(0));
-		Assert.assertEquals("JOJO,bundle," + _testDoc2.toString(), results.get(1));
+		Assert.assertEquals(expected1, results.get(0));
+		Assert.assertEquals(expected2, results.get(1));
 	}
 	
 	
@@ -109,7 +114,7 @@ public class FiltersTests {
 		_session.searchVelocity(_mock);
 		
 		IResultsFilter filter = new ExpectedResultsFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(0, results.size());
 	}
 	
@@ -119,7 +124,7 @@ public class FiltersTests {
 		_session.addExpectation("blag", "bundle", "blah blah blah", 5);
 		
 		IResultsFilter filter = new FirstHitsFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(0, results.size());
 	}
 	
@@ -134,7 +139,7 @@ public class FiltersTests {
 		_session.searchVelocity(_mock);
 		
 		IResultsFilter filter = new FirstHitsFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(3, results.size());
 	}
 	
@@ -147,7 +152,7 @@ public class FiltersTests {
 		_session.searchVelocity(_mock);
 		
 		IResultsFilter filter = new ExpectedNotFoundFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(0, results.size());
 	}
 	
@@ -159,7 +164,7 @@ public class FiltersTests {
 		_session.searchVelocity(_mock);
 		
 		IResultsFilter filter = new ExpectedNotFoundFilter();
-		List<String> results = filter.filterResults(_session);
+		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(1, results.size());
 	}
 	

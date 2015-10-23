@@ -11,31 +11,27 @@ public class QueriesWithNoResultsFilter extends Filter
 
 	/**
 	 * The list of those queries and sources that did not return any results in a format suitable for display.
-	 * The first item in the list is a header.
-	 * @return A list of queries with no results.
 	 */
-	@Override
-	public List<String> filterResults(ProfilingSession session) {
-		List<String> lines = new ArrayList<String>();
+	public List<FilterRecord> filterResults(ProfilingSession session) {
+		List<FilterRecord> records = new ArrayList<FilterRecord>();
 
 		for (VelocityQuery q : session.getQueriesAndResults()) {
 			if (!q.hasResults()) {
-				lines.add(q.getQuery() + "," + q.getBundle());
+				FilterRecord currentRecord = new FilterRecord();
+				currentRecord.addField(q.getQuery()).addField(q.getBundle());
+				records.add(currentRecord);
 			}
 		}
 		
-		return lines;
+		return records;
 	}
 	
 
-	@Override
 	public String getFileName() {
 		return "empty-results.csv";
 	}
 	
 	
-	public String getHeader() {
-		return "query,bundle";
-	}
+	public FilterRecord getHeader() { return new FilterRecord().addField("query").addField("bundle"); }
 
 }

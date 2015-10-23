@@ -1,9 +1,7 @@
 package com.ibm.wex.relevancyprofiler;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -83,13 +81,13 @@ public class Profiler {
 
 			CSVParser parser = CSVParser.parse(csvFile, Charset.defaultCharset(), CSVFormat.DEFAULT);
 			for (CSVRecord queryRecord : parser) {
+				lineNumber++;
+
 				// CSV format: query,source,expectedUrl,expectedRank
-				if (queryRecord.getRecordNumber() < 3){
+				if (queryRecord.size() < 3){
 					System.out.println("Potential problem on line: " + lineNumber);
 				}
 				else {
-
-
 					String query = queryRecord.get(0);
 					String source = queryRecord.get(1);
 					String expectedUrl = queryRecord.get(2);
@@ -101,7 +99,6 @@ public class Profiler {
 
 					queries.addExpectation(query, source, expectedUrl, expectedRank);
 				}
-				lineNumber++;
             }
         }
         catch (FileNotFoundException e) {
@@ -115,7 +112,7 @@ public class Profiler {
 			System.out.println("failed at line: " + lineNumber);
 		}
 
-		System.out.println("Read + " + lineNumber + " lines.");
+		System.out.println("Read " + lineNumber + " lines.");
         return queries;
 	}
 	

@@ -1,7 +1,6 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +29,7 @@ public class MedianRankOfExpectedResultsTest extends RelevancyMetricsTest {
 		addExpectation("expected is first", "bundle", getTestDoc1().getUrl(), getTestDoc1().getDesiredAtLeastRank());
 		searchVelocity();
 		
-		Assert.assertEquals(0.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -39,7 +38,7 @@ public class MedianRankOfExpectedResultsTest extends RelevancyMetricsTest {
 		addExpectation("expected is second", "bundle", getTestDoc2().getUrl(), getTestDoc2().getDesiredAtLeastRank());
 		searchVelocity();
 		
-		Assert.assertEquals(1.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(1.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -50,7 +49,7 @@ public class MedianRankOfExpectedResultsTest extends RelevancyMetricsTest {
 		addExpectation("expected is second and first", "bundle", getTestDoc1().getUrl(), getTestDoc1().getDesiredAtLeastRank());
 		searchVelocity();
 		
-		Assert.assertEquals(0.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -60,7 +59,7 @@ public class MedianRankOfExpectedResultsTest extends RelevancyMetricsTest {
 		addExpectation("expected is second", "bundle", getTestDoc2().getUrl(), getTestDoc2().getDesiredAtLeastRank());
 		searchVelocity();
 		
-		Assert.assertEquals(0.5, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.5, getMetric().calculate(getSession()), getDelta());
 	}
 	
 }

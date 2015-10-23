@@ -11,12 +11,9 @@ public class FirstHitsFilter extends Filter implements IResultsFilter {
 
 	/**
 	 * Gets the list of all expected an unexpected first hits in a format suitable for display.
-	 * The first item in the list is a header.
-	 * @return The list of first hits.
 	 */
-	@Override
-	public List<String> filterResults(ProfilingSession session) {
-		List<String> lines = new ArrayList<String>();
+	public List<FilterRecord> filterResults(ProfilingSession session) {
+		List<FilterRecord> records = new ArrayList<FilterRecord>();
 	
 		for (VelocityQuery q : session.getQueriesAndResults()) {
     		String query = q.getQuery();
@@ -24,39 +21,51 @@ public class FirstHitsFilter extends Filter implements IResultsFilter {
     		
     		for (VelocityDocument doc : q.getResults()) {
     			if (doc.isFirstHit()) {
-    				lines.add(query + "," + bundle + "," + doc.toString());
+					FilterRecord currentRecord = new FilterRecord();
+					currentRecord.addField(query).addField(bundle);
+					currentRecord.addField(doc.getSource());
+					currentRecord.addField(doc.getUrl());
+					currentRecord.addField(doc.getVseKey());
+					currentRecord.addField(String.valueOf(doc.getNaturalRank()));
+					currentRecord.addField(String.valueOf(doc.getRank()));
+					currentRecord.addField(String.valueOf(doc.getBaseScore()));
+					currentRecord.addField(String.valueOf(doc.getScore()));
+					currentRecord.addField(String.valueOf(doc.getLinkAnalysisScore()));
+					currentRecord.addField(String.valueOf(doc.getDesiredAtLeastRank()));
+					currentRecord.addField(String.valueOf(doc.isExpected()));
+
+					records.add(currentRecord);
     			}
     		}
 		}
 		
-		return lines;
+		return records;
 	}
 	
 	
 	
 
-	@Override
 	public String getFileName() {
 		return "first-hits-results.csv";
 	}
 	
 	
-	public String getHeader() {
-		StringBuilder line = new StringBuilder();
-		line.append("query,");
-		line.append("requested bundle,");
-		line.append("document source,");
-		line.append("url,");
-		line.append("vse-key,");
-		line.append("natural rank,");
-		line.append("rank,");
-		line.append("base score,");
-		line.append("score,");
-		line.append("la-score,");
-		line.append("at least rank,");
-		line.append("is expected?");
-		
-		return line.toString();
+	public FilterRecord getHeader() {
+		FilterRecord header = new FilterRecord();
+		header.addField("query");
+		header.addField("requested bundle");
+		header.addField("document source");
+		header.addField("url");
+		header.addField("vse-key");
+		header.addField("natural rank");
+		header.addField("rank");
+		header.addField("base score");
+		header.addField("score");
+		header.addField("la-score");
+		header.addField("at least rank");
+		header.addField("is expected?");
+
+		return header;
 	}
 
 }

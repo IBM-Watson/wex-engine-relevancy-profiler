@@ -11,33 +11,29 @@ public class ExpectedNotFoundFilter extends Filter implements IResultsFilter {
 
 	/**
 	 * Gets the list of expected results that could not be found in the top N results 
-	 * for a given query suitable for display to the user.  
-	 * The first item in the list is a header.
-	 * @return The list of expected results not found.
+	 * for a given query suitable for display to the user.
 	 */
-	@Override
-	public List<String> filterResults(ProfilingSession session) {
-		List<String> lines = new ArrayList<String>();
+	public List<FilterRecord> filterResults(ProfilingSession session) {
+		List<FilterRecord> records = new ArrayList<FilterRecord>();
 
 		for (VelocityQuery q : session.getQueriesAndResults()) {
 			for (Expectation e : q.getMissingExpectations()) {
-				lines.add(q.getQuery() + "," + q.getBundle() + "," + e.getUrl());
+				FilterRecord currentRecord = new FilterRecord();
+                currentRecord.addField(q.getQuery()).addField(q.getBundle()).addField(e.getUrl());
+				records.add(currentRecord);
 			}
 		}
 		
-		return lines;
+		return records;
 	}
 	
 	
 
-	@Override
 	public String getFileName() {
 		return "not-found-but-expected.csv";
 	}
 	
 	
-	public String getHeader() {
-		return "query,bundle,url";
-	}
+	public FilterRecord getHeader() { return new FilterRecord().addField("query").addField("bundle").addField("url"); }
 
 }

@@ -93,7 +93,7 @@ public class VelocityDocument {
 		line.append(_laScore + ",");
 		line.append(_atLeastRank + ",");
 		line.append(_expected);
-		
+
 		return line.toString();
 	}
 

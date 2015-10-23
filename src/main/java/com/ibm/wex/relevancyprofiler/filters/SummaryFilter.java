@@ -26,56 +26,56 @@ public class SummaryFilter extends Filter implements IResultsFilter {
 		_maxResults = maxResults;
 	}
 	
-	@Override
-	public List<String> filterResults(ProfilingSession session) {
+	public List<FilterRecord> filterResults(ProfilingSession session) {
 		String now = new SimpleDateFormat("MMMM dd, yyyy h:m:s a").format(new Date().getTime());
+		String n = System.lineSeparator();
 		
-		List<String> lines = new ArrayList<String>();
-		lines.add("");
-		lines.add("Run Date: " + now);
-		lines.add("Velocity Endpoint: " + _endpoint);
-		lines.add("Project: " + _project);
-		lines.add("Queries File: " + _queriesFile);
-		lines.add("Max Results Returned: " + _maxResults);
-		lines.add("");
+		StringBuilder lines = new StringBuilder();
+		lines.append(n);
+		lines.append("Run Date: " + now + n);
+		lines.append("Velocity Endpoint: " + _endpoint + n);
+		lines.append("Project: " + _project + n);
+		lines.append("Queries File: " + _queriesFile + n);
+		lines.append("Max Results Returned: " + _maxResults + n);
+		lines.append(n);
 		
 		int expectedFound = new ExpectedResultsFilter().filterResults(session).size();
 		int expectedNotFound = new ExpectedNotFoundFilter().filterResults(session).size();
-		lines.add("Number Of Queries: " + session.getQueries().size());
-		lines.add("Total Expected Documents: " + (expectedFound + expectedNotFound));
-		lines.add("Number Of Expected Documents Found: " + expectedFound);
-		lines.add("Number Of Expected Documents Not Found: " + expectedNotFound);
+		lines.append("Number Of Queries: " + session.getQueries().size() + n);
+		lines.append("Total Expected Documents: " + (expectedFound + expectedNotFound) + n);
+		lines.append("Number Of Expected Documents Found: " + expectedFound + n);
+		lines.append("Number Of Expected Documents Not Found: " + expectedNotFound + n);
 		
-		lines.add("");
-		lines.add("== Metrics Results ==");
-		lines.add("");
+		lines.append(n);
+		lines.append("== Metrics Results ==" + n);
+		lines.append(n);
 		List<IRelevancyMetric> metrics = prepareMetrics();
 		for (IRelevancyMetric metric : metrics) {
-			lines.add(metric.getName());
-			lines.add("\t" + metric.calculate(session));
-			lines.add("");
+			lines.append(metric.getName() + n);
+			lines.append("\t" + metric.calculate(session) + n);
+			lines.append(n);
 		}
 		
-		lines.add("");
-		lines.add("== Metrics Summary ==");
-		lines.add("");
+		lines.append(n);
+		lines.append("== Metrics Summary ==" + n);
+		lines.append(n);
 		for (IRelevancyMetric metric : metrics) {
-			lines.add(metric.getName());
-			lines.add("\t" + metric.getDescription());
-			lines.add("");
+			lines.append(metric.getName() + n);
+			lines.append("\t" + metric.getDescription() + n);
+			lines.append(n);
 		}
 		
-		
-		return lines;
+		List<FilterRecord> summary = new ArrayList<FilterRecord>();
+		summary.add(new FilterRecord().addField(lines.toString()));
+		return summary;
 	}
 
-	@Override
 	public String getFileName() {
 		return "run-summary.txt";
 	}
 	
-	public String getHeader() {
-		return "== Run Summary ==";
+	public FilterRecord getHeader() {
+		return new FilterRecord().addField("== Run Summary ==");
 	}
 	
 	

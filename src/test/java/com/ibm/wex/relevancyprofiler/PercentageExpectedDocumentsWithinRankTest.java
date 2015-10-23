@@ -1,25 +1,25 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.ibm.wex.relevancyprofiler.VelocityDocument;
-import com.ibm.wex.relevancyprofiler.metrics.PercentageTopDocumentsWithinRank;
+import com.ibm.wex.relevancyprofiler.metrics.PercentageExpectedDocumentsWithinRank;
 
 
 
-public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
+
+public class PercentageExpectedDocumentsWithinRankTest extends RelevancyMetricsTest  {
 
 	@Before
 	public void setUp() {
-		// this is just a really simple test -- only looking at top 2 results by default.
-		initializeMetric(new PercentageTopDocumentsWithinRank(2));
+		initializeMetric(new PercentageExpectedDocumentsWithinRank(2));
 		super.setUp();
 	}
-	
-	
+
+
 	@Test
 	public void shouldReturnNullWhenNoResultsToCount() {
 		searchVelocity();
@@ -32,12 +32,12 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		addExpectation("expected is not found", "bundle", "not found", 10);
 		searchVelocity();
 		
-		Assert.assertEquals(0.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
 	@Test
-	public void shouldReturn0WhenNoTopDocsInTop2() {
+	public void shouldReturn0WhenNoDocsInTop2() {
 		VelocityDocument testDoc3 = new VelocityDocument("http://blarg.com/testDocument3.html");
 		testDoc3.setLinkAnalysisScore(33);
 		testDoc3.setRank(5);
@@ -52,7 +52,7 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(0.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(0.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -72,7 +72,7 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(0.5, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.5, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -83,9 +83,8 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(1.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(1.0, getMetric().calculate(getSession()), getDelta());
 	}
-	
 	
 	@Test
 	public void shouldReturn1WhenTwoDocsOfOneQueryInTop2() {
@@ -94,17 +93,17 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(1.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(1.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	@Test
-	public void shouldReturn1WhenTwoDocsOfOneQueryInTop2ButOneNotFound() {
+	public void shouldReturn50WhenTwoDocsOfOneQueryInTop2() {
 		addExpectation("query", "bundle", getTestDoc1().getUrl(), getTestDoc1().getDesiredAtLeastRank());
 		addExpectation("query", "bundle", "not found", 10);
 		
 		searchVelocity();
 		
-		Assert.assertEquals(1.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.5, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -120,15 +119,13 @@ public class PercentageTopDocumentsWithinRankTest extends RelevancyMetricsTest {
 		
 		getMock().addDocumentToResults(testDoc3);
 		
-		addExpectation("first query", "bundle", getTestDoc1().getUrl(), getTestDoc1().getDesiredAtLeastRank());
-		addExpectation("second query", "bundle", getTestDoc2().getUrl(), getTestDoc2().getDesiredAtLeastRank());
+		addExpectation("query", "bundle", getTestDoc1().getUrl(), getTestDoc1().getDesiredAtLeastRank());
+		addExpectation("query", "bundle", getTestDoc2().getUrl(), getTestDoc2().getDesiredAtLeastRank());
 		addExpectation("expected is third", "bundle", testDoc3.getUrl(), testDoc3.getDesiredAtLeastRank());
 		
 		searchVelocity();
 		
-		Assert.assertEquals(2.0/3, getMetric().calculate(getSession()));
+		Assert.assertEquals(2.0/3, getMetric().calculate(getSession()), getDelta());
 	}
-	
-	
 	
 }

@@ -7,31 +7,30 @@ import java.io.IOException;
 import java.util.List;
 
 import com.ibm.wex.relevancyprofiler.ProfilingSession;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 
 public abstract class Filter implements IResultsFilter {
 
 
 	public void saveResults(String directoryName, ProfilingSession session) {
-		BufferedWriter writer = null;
-        try {
-        	// make sure the directory exists and if it doesn't, create it.
-        	File out = getFilePath(directoryName, getFileName());
-        	
-        	writer = new BufferedWriter(new FileWriter(out));
-        	writer.write(getHeader() + "\n");
+		CSVPrinter printer = null;
 
-        	List<String> lines = filterResults(session);
-        	for (String line : lines) {
-        		writer.write(line + "\n");
-        	}
+		try {
+        	printer = createCsvPrinter(directoryName, getFileName());
+        	printer.printRecord((Object[]) getHeader().getRecord());
+
+            for (FilterRecord record : filterResults(session)) {
+                printer.printRecord((Object[]) record.getRecord());
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         finally {
           try {
-                if (writer != null) {
-                  writer.close();
+                if (printer != null) {
+					printer.close();
                 }
             }
             catch (IOException e) {
@@ -41,20 +40,13 @@ public abstract class Filter implements IResultsFilter {
 	}
 	
 	
-	/**
-	 * Gets a file path that is suitable for saving the output of a profiling session.
-	 * @param directortyName The name of the directory in which to save the file.
-	 * @param fileName The root name of the file to be saved.
-	 * @return A file ready to accept a writer.
-	 */
-	protected File getFilePath(String directortyName, String fileName) {
-	    File file1 = new File(directortyName);
-	    file1.mkdirs(); // make sure the directory holding the data exists
-	    
-	    // String now = new SimpleDateFormat("yyyyMMdd").format(new Date().getTime());	    
-	    File file2 = new File(file1, fileName);
-	    
-	    return file2;
+
+	private CSVPrinter createCsvPrinter(String directoryName, String fileName) throws IOException {
+		File directoryPath = new File(directoryName);
+		directoryPath.mkdirs(); // make sure the directory holding the data exists
+
+		// String now = new SimpleDateFormat("yyyyMMdd").format(new Date().getTime());
+		return new CSVPrinter(new FileWriter(new File(directoryPath, fileName)), CSVFormat.DEFAULT);
 	}
 	
 }

@@ -1,9 +1,8 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,8 +1,7 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class PercentageDocumentsNotFoundTest extends RelevancyMetricsTest {
 		addExpectation("expected is not found", "bundle", "not found", 10);
 		searchVelocity();
 		
-		Assert.assertEquals(1.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(1.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	
@@ -42,7 +41,7 @@ public class PercentageDocumentsNotFoundTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(0.0, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.0, getMetric().calculate(getSession()), getDelta());
 	}
 	
 	@Test
@@ -52,7 +51,7 @@ public class PercentageDocumentsNotFoundTest extends RelevancyMetricsTest {
 		
 		searchVelocity();
 		
-		Assert.assertEquals(0.5, getMetric().calculate(getSession()));
+		Assert.assertEquals(0.5, getMetric().calculate(getSession()), getDelta());
 	}
 	
 

@@ -1,4 +1,4 @@
-package com.ibm.wex.relevancyprofiler.test;
+package com.ibm.wex.relevancyprofiler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,7 @@ import com.ibm.wex.relevancyprofiler.VelocityQuery;
 public class MockVelocityQueryConnector implements IVelocityConnector {
 
 	private List<VelocityDocument> _documents = new ArrayList<VelocityDocument>();
-	
-	@Override
+
 	public String doQuery(String urlRoot, String project, int maxCount, VelocityQuery q) {
 		return createTestXml();
 	}

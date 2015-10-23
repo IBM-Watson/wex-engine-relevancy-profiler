@@ -8,12 +8,12 @@ import com.ibm.wex.relevancyprofiler.ProfilingSession;
 
 public interface IResultsFilter {
 	
-	List<String> filterResults(ProfilingSession session);
+	List<FilterRecord> filterResults(ProfilingSession session);
 	
 	void saveResults(String directoryName, ProfilingSession session);
 	
 	String getFileName();
 	
-	String getHeader();
+	FilterRecord getHeader();
 
 }

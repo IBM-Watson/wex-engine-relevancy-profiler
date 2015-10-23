@@ -18,65 +18,78 @@ public class AllResultsFilter extends Filter
 
 	/**
 	 * Returns all results for this session in a format suitable for display.  This will include 
-	 * expected URLs that were not found and top hits that were not expected.  The first item in the
-	 * list is a header.
-	 * @return A list of all results.
+	 * expected URLs that were not found and top hits that were not expected.
 	 */
-	@Override
-	public List<String> filterResults(ProfilingSession session) {
+	public List<FilterRecord> filterResults(ProfilingSession session) {
 		List<VelocityDocument> documents = session.getAllResults();
-		List<String> lines = new ArrayList<String>();
+		List<FilterRecord> records = new ArrayList<FilterRecord>();
 		
 		if (documents == null) {
-			return lines;
+			return records;
 		}
 		
 		 for (VelocityQuery q : session.getQueriesAndResults()) {
 	        String query = q.getQuery();
 	        String bundle = q.getBundle();
-	        
+
 	        for (VelocityDocument doc : q.getResults()) {
-	          lines.add(query + "," + bundle + "," + doc.toString());
+                FilterRecord currentRecord = new FilterRecord();
+                currentRecord.addField(query).addField(bundle);
+                currentRecord.addField(doc.getSource());
+                currentRecord.addField(doc.getUrl());
+                currentRecord.addField(doc.getVseKey());
+                currentRecord.addField(String.valueOf(doc.getNaturalRank()));
+                currentRecord.addField(String.valueOf(doc.getRank()));
+                currentRecord.addField(String.valueOf(doc.getBaseScore()));
+                currentRecord.addField(String.valueOf(doc.getScore()));
+                currentRecord.addField(String.valueOf(doc.getLinkAnalysisScore()));
+                currentRecord.addField(String.valueOf(doc.getDesiredAtLeastRank()));
+                currentRecord.addField(String.valueOf(doc.isExpected()));
+                records.add(currentRecord);
 	        }
 	        
 	        for (Expectation doc : q.getMissingExpectations()) {
-	          lines.add(query + "," + bundle + ",," + doc.getUrl() + ",,-1,-1,-1,-1,-1," + doc.getDesiredHighestRank() + ",true");
+                FilterRecord missingRecord = new FilterRecord();
+                missingRecord.addField(query).addField(bundle)
+                             .addField("").addField(doc.getUrl())
+                             .addField("").addField("-1").addField("-1").addField("-1").addField("-1").addField("-1")
+                             .addField(String.valueOf(doc.getDesiredHighestRank())).addField("true");
+
+                records.add(missingRecord);
 	        }
 	    }
 		    
-		Collections.sort(lines, new Comparator<String>() {
-			@Override
-			public int compare(String x, String y) {
+		Collections.sort(records, new Comparator<FilterRecord>() {
+			public int compare(FilterRecord x, FilterRecord y) {
 				return x.compareTo(y);
 			}
 		});
 			
-		return lines;
+		return records;
 	}
 	
 	
-	@Override
 	public String getFileName() {
 		return "all-results.csv";
 	}
 	
 	
-	public String getHeader() {
-		StringBuilder line = new StringBuilder();
-		line.append("query,");
-		line.append("requested bundle,");
-		line.append("document source,");
-		line.append("url,");
-		line.append("vse-key,");
-		line.append("natural rank,");
-		line.append("rank,");
-		line.append("base score,");
-		line.append("score,");
-		line.append("la-score,");
-		line.append("at least rank,");
-		line.append("is expected?");
+	public FilterRecord getHeader() {
+		FilterRecord header = new FilterRecord();
+		header.addField("query");
+		header.addField("requested bundle");
+		header.addField("document source");
+		header.addField("url");
+		header.addField("vse-key");
+		header.addField("natural rank");
+		header.addField("rank");
+		header.addField("base score");
+		header.addField("score");
+		header.addField("la-score");
+		header.addField("at least rank");
+		header.addField("is expected");
 		
-		return line.toString();		
+		return header;
 	}
 
 }
