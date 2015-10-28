@@ -10,7 +10,6 @@ import com.ibm.wex.relevancyprofiler.VelocityDocument;
 public class MedianRankOfExpectedResults implements IRelevancyMetric {
 
 	
-	@Override
 	public Double calculate(ProfilingSession results) {
 		List<VelocityDocument> expectedDocuments = results.getExpectedDocuments();
 		
@@ -45,12 +44,10 @@ public class MedianRankOfExpectedResults implements IRelevancyMetric {
 		}
 	}
 
-	@Override
 	public String getName() {
 		return "Median Rank of Expected Results";
 	}
 
-	@Override
 	public String getDescription() {
 		return "The median rank (that is the one in the middle of a sorted list of ranks) of all expected documents that were found.  " +
 			   "Missing documents are not considered in this metric.  Lower is better with the best score being 0.";

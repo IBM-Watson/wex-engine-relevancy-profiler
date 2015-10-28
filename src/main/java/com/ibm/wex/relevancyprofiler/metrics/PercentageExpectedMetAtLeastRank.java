@@ -9,7 +9,6 @@ import com.ibm.wex.relevancyprofiler.VelocityDocument;
 
 public class PercentageExpectedMetAtLeastRank implements IRelevancyMetric {
 
-	@Override
 	public Double calculate(ProfilingSession results) {
 		List<VelocityDocument> documents = results.getExpectedDocuments();
 
@@ -27,12 +26,10 @@ public class PercentageExpectedMetAtLeastRank implements IRelevancyMetric {
 		return (double)numberExpectedThatMeetsAtLeastRank / documents.size();
 	}
 
-	@Override
 	public String getName() {
 		return "Percentage Expected Met Specified at Least Rank";
 	}
 
-	@Override
 	public String getDescription() {
 		return "The percentage of expected documents that have a rank less than or equal to the specified \"at least rank\" for the set of queries.  " +
 		   "All found, expected documents are considered.  Higher is better with the best score being 1.0.";

@@ -17,7 +17,6 @@ public class PercentageExpectedDocumentsWithinRank implements IRelevancyMetric {
 		_n = rank;
 	}
 	
-	@Override
 	public Double calculate(ProfilingSession results) {
 		int queryCount = results.getQueries().size();
 		
@@ -43,12 +42,10 @@ public class PercentageExpectedDocumentsWithinRank implements IRelevancyMetric {
 		return (double)countInTopN / totalResults;
 	}
 
-	@Override
 	public String getName() {
 		return "Percentage of Expected Documents in Top " + _n;
 	}
 
-	@Override
 	public String getDescription() {
 		return "The percentage of expected documents that appear in the top " + _n + ", that is documents with a rank less than " + _n + ".  " +
 		   "Higher is better with the best score being 1.0.";

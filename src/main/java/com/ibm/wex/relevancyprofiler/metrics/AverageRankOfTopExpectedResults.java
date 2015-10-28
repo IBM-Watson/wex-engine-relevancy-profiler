@@ -9,7 +9,6 @@ import com.ibm.wex.relevancyprofiler.VelocityDocument;
 
 public class AverageRankOfTopExpectedResults implements IRelevancyMetric {
 
-	@Override
 	public Double calculate(ProfilingSession results) {
 		List<VelocityDocument> topDocuments = results.getTopRankedExpectedDocuments();
 		
@@ -25,12 +24,10 @@ public class AverageRankOfTopExpectedResults implements IRelevancyMetric {
 		return ((double) summation) / results.getQueries().size();
 	}
 
-	@Override
 	public String getName() {
 		return "Average Rank of Top Expected Results";
 	}
 
-	@Override
 	public String getDescription() {
 		return "The average rank of only the lowest ranked expected document for a query that were found.  " +
 	  	       "Missing documents are not considered in this metric, nor are documents beyond the top for a query.  " +

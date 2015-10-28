@@ -9,7 +9,6 @@ import com.ibm.wex.relevancyprofiler.VelocityDocument;
 
 public class AverageRankOfExpectedResults implements IRelevancyMetric {
 
-	@Override
 	public Double calculate(ProfilingSession results) {
 		List<VelocityDocument> documents = results.getExpectedDocuments();
 		
@@ -25,12 +24,10 @@ public class AverageRankOfExpectedResults implements IRelevancyMetric {
 		return (double)summation / documents.size();
 	}
 
-	@Override
 	public String getName() {
 		return "Average Rank of Expected Results";
 	}
 
-	@Override
 	public String getDescription() {
 		return "The average rank of all expected documents that were found.  " +
 			   "Missing documents are not considered in this metric.  Lower is better with the best score being 0.";
