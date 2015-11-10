@@ -9,7 +9,7 @@ import com.ibm.wex.relevancyprofiler.VelocityQuery;
 
 
 
-public class ExpectedResultsFilter extends Filter implements IResultsFilter {
+public class ExpectedFoundResultsFilter extends Filter implements IResultsFilter {
 
 	/**
 	 * Gets the list of only those results that were expected in a format suitable for display.
@@ -46,7 +46,7 @@ public class ExpectedResultsFilter extends Filter implements IResultsFilter {
 
 
 	public String getFileName() {
-		return "expected-results.csv";
+		return "expected-found-results.csv";
 	}
 	
 	

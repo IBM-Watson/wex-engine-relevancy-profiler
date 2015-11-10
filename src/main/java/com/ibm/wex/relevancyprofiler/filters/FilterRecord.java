@@ -42,10 +42,24 @@ public class FilterRecord implements Comparable<FilterRecord> {
         return this;
     }
 
+    public FilterRecord addField(int value) {
+        return addField(String.valueOf(value));
+    }
+
+    public FilterRecord addField(double value) {
+        return addField(String.valueOf(value));
+    }
+
+    public FilterRecord addField(boolean value) {
+        return addField(toString().valueOf(value));
+    }
+
     public FilterRecord addFields(String[] values) {
         _fields.addAll(Arrays.asList(values));
         return this;
     }
+
+
 
 
     public String getFieldAt(int i) {

@@ -26,13 +26,13 @@ public class FirstHitsFilter extends Filter implements IResultsFilter {
 					currentRecord.addField(doc.getSource());
 					currentRecord.addField(doc.getUrl());
 					currentRecord.addField(doc.getVseKey());
-					currentRecord.addField(String.valueOf(doc.getNaturalRank()));
-					currentRecord.addField(String.valueOf(doc.getRank()));
-					currentRecord.addField(String.valueOf(doc.getBaseScore()));
-					currentRecord.addField(String.valueOf(doc.getScore()));
-					currentRecord.addField(String.valueOf(doc.getLinkAnalysisScore()));
-					currentRecord.addField(String.valueOf(doc.getDesiredAtLeastRank()));
-					currentRecord.addField(String.valueOf(doc.isExpected()));
+					currentRecord.addField(doc.getNaturalRank());
+					currentRecord.addField(doc.getRank());
+					currentRecord.addField(doc.getBaseScore());
+					currentRecord.addField(doc.getScore());
+					currentRecord.addField(doc.getLinkAnalysisScore());
+					currentRecord.addField(doc.getDesiredAtLeastRank());
+					currentRecord.addField(doc.isExpected());
 
 					records.add(currentRecord);
     			}

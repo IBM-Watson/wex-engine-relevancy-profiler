@@ -38,13 +38,13 @@ public class AllResultsFilter extends Filter
                 currentRecord.addField(doc.getSource());
                 currentRecord.addField(doc.getUrl());
                 currentRecord.addField(doc.getVseKey());
-                currentRecord.addField(String.valueOf(doc.getNaturalRank()));
-                currentRecord.addField(String.valueOf(doc.getRank()));
-                currentRecord.addField(String.valueOf(doc.getBaseScore()));
-                currentRecord.addField(String.valueOf(doc.getScore()));
-                currentRecord.addField(String.valueOf(doc.getLinkAnalysisScore()));
-                currentRecord.addField(String.valueOf(doc.getDesiredAtLeastRank()));
-                currentRecord.addField(String.valueOf(doc.isExpected()));
+                currentRecord.addField(doc.getNaturalRank());
+                currentRecord.addField(doc.getRank());
+                currentRecord.addField(doc.getBaseScore());
+                currentRecord.addField(doc.getScore());
+                currentRecord.addField(doc.getLinkAnalysisScore());
+                currentRecord.addField(doc.getDesiredAtLeastRank());
+                currentRecord.addField(doc.isExpected());
                 records.add(currentRecord);
 	        }
 	        
@@ -52,8 +52,8 @@ public class AllResultsFilter extends Filter
                 FilterRecord missingRecord = new FilterRecord();
                 missingRecord.addField(query).addField(bundle)
                              .addField("").addField(doc.getUrl())
-                             .addField("").addField("-1").addField("-1").addField("-1").addField("-1").addField("-1")
-                             .addField(String.valueOf(doc.getDesiredHighestRank())).addField("true");
+                             .addField("").addField(-1).addField(-1).addField(-1).addField(-1).addField(-1)
+                             .addField(doc.getDesiredHighestRank()).addField(true);
 
                 records.add(missingRecord);
 	        }

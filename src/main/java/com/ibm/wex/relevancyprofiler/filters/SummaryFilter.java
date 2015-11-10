@@ -39,13 +39,13 @@ public class SummaryFilter extends Filter implements IResultsFilter {
 		lines.append("Max Results Returned: " + _maxResults + n);
 		lines.append(n);
 		
-		int expectedFound = new ExpectedResultsFilter().filterResults(session).size();
+		int expectedFound = new ExpectedFoundResultsFilter().filterResults(session).size();
 		int expectedNotFound = new ExpectedNotFoundFilter().filterResults(session).size();
 		lines.append("Number Of Queries: " + session.getQueries().size() + n);
 		lines.append("Total Expected Documents: " + (expectedFound + expectedNotFound) + n);
 		lines.append("Number Of Expected Documents Found: " + expectedFound + n);
 		lines.append("Number Of Expected Documents Not Found: " + expectedNotFound + n);
-		
+
 		lines.append(n);
 		lines.append("== Metrics Results ==" + n);
 		lines.append(n);
@@ -81,6 +81,7 @@ public class SummaryFilter extends Filter implements IResultsFilter {
 	
 	private List<IRelevancyMetric> prepareMetrics() {
 		List<IRelevancyMetric> metrics = new ArrayList<IRelevancyMetric>();
+		metrics.add(new RecallMetric());
 		metrics.add(new AverageRankOfExpectedResults());
 		metrics.add(new MedianRankOfExpectedResults());
 		metrics.add(new AverageRankOfTopExpectedResults());

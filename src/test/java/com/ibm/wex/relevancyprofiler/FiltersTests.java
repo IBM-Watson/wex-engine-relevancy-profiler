@@ -71,7 +71,7 @@ public class FiltersTests {
 		_session.addExpectation("blag", "bundle", _testDoc2.getUrl(), _testDoc2.getDesiredAtLeastRank());
 		_session.searchVelocity(_mock);
 		
-		IResultsFilter filter = new ExpectedResultsFilter();
+		IResultsFilter filter = new ExpectedFoundResultsFilter();
 		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(1, results.size());
 
@@ -89,11 +89,12 @@ public class FiltersTests {
 		_testDoc1.setExpectedStatus(true);
 		_testDoc2.setExpectedStatus(true);
 		_session.addExpectation("blag", "bundle", _testDoc1.getUrl(), _testDoc1.getDesiredAtLeastRank());
-		_session.addExpectation("JOJO", "bundle", _testDoc2.getUrl(), _testDoc2.getDesiredAtLeastRank());		
+		_session.addExpectation("JOJO", "bundle", _testDoc2.getUrl(), _testDoc2.getDesiredAtLeastRank());
+        _session.addExpectation("expected not found", "bundle", "blah blah blah", 5);
 		
 		_session.searchVelocity(_mock);
 		
-		IResultsFilter filter = new ExpectedResultsFilter();
+		IResultsFilter filter = new ExpectedFoundResultsFilter();
 		List<FilterRecord> results = filter.filterResults(_session);
 
         FilterRecord expected1 = new FilterRecord().addField("blag").addField("bundle");
@@ -113,7 +114,7 @@ public class FiltersTests {
 		_session.addExpectation("blag", "bundle", "blah blah blah", 5);
 		_session.searchVelocity(_mock);
 		
-		IResultsFilter filter = new ExpectedResultsFilter();
+		IResultsFilter filter = new ExpectedFoundResultsFilter();
 		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(0, results.size());
 	}
@@ -167,6 +168,7 @@ public class FiltersTests {
 		List<FilterRecord> results = filter.filterResults(_session);
 		Assert.assertEquals(1, results.size());
 	}
-	
+
+
 	
 }
