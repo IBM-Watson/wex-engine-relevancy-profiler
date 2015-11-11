@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class VelocityQueryConnector implements IVelocityConnector {
 
 	
-	@Override
 	public String doQuery(String urlRoot, String project, int maxCount, VelocityQuery q) {
 		try {
     		String urlString = urlRoot + CreateCgiParams(q.getQuery(), q.getBundle(), project, maxCount);
@@ -54,6 +53,7 @@ public class VelocityQueryConnector implements IVelocityConnector {
 		cgi.append("&render.function=xml-feed-display-debug");
 		cgi.append("&query=" + URLEncoder.encode(query,"UTF-8"));
 		cgi.append("&render.list-show=" + maxCount);
+		cgi.append("&num=" + maxCount);
 		
 		return cgi.toString();
 	}

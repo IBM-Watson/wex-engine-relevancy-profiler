@@ -72,6 +72,8 @@ public class ProfilingSession {
 	 * @return The number of milliseconds between queries.
 	 */
 	public int getSleepTime() { return _sleepTime; }
+
+
 	/**
 	 * Sets the amount of time between queries in milliseconds
 	 * @param value The number of milliseconds.
@@ -120,7 +122,6 @@ public class ProfilingSession {
 		for (final VelocityQuery q : _querySet) {
 			
 			Runnable query = new Runnable() {
-				@Override
 				public void run() {
 					String xml = connector.doQuery(_urlRoot, _project, _maxCount, q);
 					q.parseResultXml(xml);
@@ -174,7 +175,6 @@ public class ProfilingSession {
 		}
 		
 		Collections.sort(documents, new Comparator<VelocityDocument>() {
-			@Override
 			public int compare(VelocityDocument x, VelocityDocument y) {
 				return x.toString().compareTo(y.toString());
 			}
@@ -207,7 +207,6 @@ public class ProfilingSession {
 	 * Gets the list of all documents that were expected.  That is, rather than
 	 * returning a list of strings, this is the actual document with the full payload
 	 * of information associated with the document.
-	 * @return
 	 */
 	public List<VelocityDocument> getExpectedDocuments() {
 		List<VelocityDocument> docs = new ArrayList<VelocityDocument>();

@@ -1,19 +1,17 @@
 package com.ibm.wex.relevancyprofiler;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  * Represents a query that is to be profiled.
@@ -33,6 +31,8 @@ public class VelocityQuery {
 	
 	private List<Expectation> _expectedDocuments = null;
 	private List<VelocityDocument> _results = null;
+
+    private int _totalRetrievedForQuery = 0;
 	
 	/**
 	 * Creates a new QuerySet to be used for profiling purposes.
@@ -208,7 +208,13 @@ public class VelocityQuery {
 		
 		return false;
 	}
-	
+
+
+	public int getTotalRetrieved() {
+		return _totalRetrievedForQuery;
+	}
+
+
 	
 	/**
 	 * Parses the results XML and populates the result set for this query.
@@ -315,10 +321,17 @@ public class VelocityQuery {
 
 	        Document doc = db.parse(is);
 
-//	        NodeList list = doc.getElementsByTagName("list");
-//	        if (list == null || list.getLength() < 1) {
-//	        	return null;
-//	        }
+	        NodeList list = doc.getElementsByTagName("list");
+	        if (list == null || list.getLength() < 1) {
+	        	return null;
+	        }
+            else {
+                Node listNode = list.item(0);
+                int num = convertToInt(listNode.getAttributes().getNamedItem("num").getNodeValue()); // total number of results returned
+                int per = convertToInt(listNode.getAttributes().getNamedItem("per").getNodeValue()); // total number of results requested
+
+                _totalRetrievedForQuery = Math.min(num, per); // actual number of results round received for what was requested
+            }
 	        
 	        
 			return doc.getElementsByTagName("document");
@@ -353,5 +366,6 @@ public class VelocityQuery {
 		}
 	}
 
-	
+
+
 }

@@ -33,9 +33,7 @@ public class Profiler {
 	private static int _maxResults = 100;
 	private static int _numberOfThreads = 10;
 	
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
 		
 		if (!ProcessArguments(args)) {
