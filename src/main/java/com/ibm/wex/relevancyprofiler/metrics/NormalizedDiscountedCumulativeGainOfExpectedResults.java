@@ -80,7 +80,7 @@ public class NormalizedDiscountedCumulativeGainOfExpectedResults implements
 				+ "It is the average of the normalized discounted cumulative gains of all the queries. "
 				+ "The relevance judgments considered are binary."
 				+ "Higher is better: 1 means the all the expected documents are ranked in the top positions for all queries, "
-				+ "0 means that no document in found at all.";
+				+ "0 means that no document is found at all.";
 	}
 
 }

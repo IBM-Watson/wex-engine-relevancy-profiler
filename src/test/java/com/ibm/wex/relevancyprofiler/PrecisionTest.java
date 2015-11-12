@@ -1,6 +1,6 @@
 package com.ibm.wex.relevancyprofiler;
 
-import com.ibm.wex.relevancyprofiler.metrics.PrecisionMetric;
+import com.ibm.wex.relevancyprofiler.metrics.PrecisionAtNMetric;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,7 @@ public class PrecisionTest extends RelevancyMetricsTest {
 
     @Before
     public void setUp() {
-        initializeMetric(new PrecisionMetric());
+        initializeMetric(new PrecisionAtNMetric());
         super.setUp();
     }
 

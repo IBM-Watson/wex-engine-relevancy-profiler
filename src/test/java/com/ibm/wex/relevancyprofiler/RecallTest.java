@@ -1,6 +1,6 @@
 package com.ibm.wex.relevancyprofiler;
 
-import com.ibm.wex.relevancyprofiler.metrics.RecallMetric;
+import com.ibm.wex.relevancyprofiler.metrics.RecallAtNMetric;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,7 @@ public class RecallTest extends RelevancyMetricsTest {
 
     @Before
     public void setUp() {
-        initializeMetric(new RecallMetric());
+        initializeMetric(new RecallAtNMetric());
         super.setUp();
     }
 

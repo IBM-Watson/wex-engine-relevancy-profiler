@@ -331,6 +331,8 @@ public class VelocityQuery {
                 int per = convertToInt(listNode.getAttributes().getNamedItem("per").getNodeValue()); // total number of results requested
 
                 _totalRetrievedForQuery = Math.min(num, per); // actual number of results round received for what was requested
+                // this can be improved given that when render.list-show = num these numbers will always be the same
+                // but this would need to be relaxed to enable paging through results
             }
 	        
 	        

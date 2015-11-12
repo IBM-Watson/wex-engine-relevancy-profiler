@@ -4,7 +4,7 @@ package com.ibm.wex.relevancyprofiler.metrics;
 import com.ibm.wex.relevancyprofiler.ProfilingSession;
 import com.ibm.wex.relevancyprofiler.VelocityQuery;
 
-public class PrecisionMetric implements IRelevancyMetric {
+public class PrecisionAtNMetric implements IRelevancyMetric {
 
     public Double calculate(ProfilingSession results) {
         // relevantDocumentCount = sum the number of expectations per query
@@ -26,7 +26,7 @@ public class PrecisionMetric implements IRelevancyMetric {
     }
 
     public String getName() {
-        return "Precision";
+        return "Precision at N";
     }
 
     public String getDescription() {

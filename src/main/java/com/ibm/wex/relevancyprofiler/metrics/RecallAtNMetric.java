@@ -4,7 +4,7 @@ package com.ibm.wex.relevancyprofiler.metrics;
 import com.ibm.wex.relevancyprofiler.ProfilingSession;
 import com.ibm.wex.relevancyprofiler.VelocityQuery;
 
-public class RecallMetric implements IRelevancyMetric {
+public class RecallAtNMetric implements IRelevancyMetric {
 
 
     public Double calculate(ProfilingSession results) {
@@ -27,7 +27,7 @@ public class RecallMetric implements IRelevancyMetric {
     }
 
     public String getName() {
-        return "Recall";
+        return "Recall at N";
     }
 
     public String getDescription() {
