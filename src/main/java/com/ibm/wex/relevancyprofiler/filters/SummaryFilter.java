@@ -90,7 +90,9 @@ public class SummaryFilter extends Filter implements IResultsFilter {
 		metrics.add(new PercentageExpectedDocumentsWithinRank(_n));
 		metrics.add(new PercentageTopDocumentsWithinRank(_nTop));
 		metrics.add(new PercentageDocumentsNotFound());
-		
+		metrics.add(new MeanReciprocalRankOfExpectedResults());
+		metrics.add(new MeanAveragePrecisionOfExpectedResults());
+		metrics.add(new NormalizedDiscountedCumulativeGainOfExpectedResults());
 		return metrics;
 	}
 
