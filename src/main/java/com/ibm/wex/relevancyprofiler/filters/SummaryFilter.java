@@ -82,7 +82,7 @@ public class SummaryFilter extends Filter implements IResultsFilter {
 	private List<IRelevancyMetric> prepareMetrics() {
 		List<IRelevancyMetric> metrics = new ArrayList<IRelevancyMetric>();
 		metrics.add(new RecallMetric());
-        metrics.add(new PrecisionMetric());
+		metrics.add(new PrecisionMetric());
 		metrics.add(new AverageRankOfExpectedResults());
 		metrics.add(new MedianRankOfExpectedResults());
 		metrics.add(new AverageRankOfTopExpectedResults());
