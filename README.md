@@ -87,7 +87,7 @@ Saving data to run-summary.txt...
 Done.
 ```
 
-When the analysis is complete, 6 files will be saved to the folder sample-ouptput (as described in the run summary from the example above).
+When the analysis is complete, 6 files will be saved to the folder sample-output (as described in the run summary from the example above).
 
 ## Interpreting Relevancy Metrics and Output
 Calculated metrics are written to `run-summary.txt`.  This is a convenient way to keep track of the settings used for a particular run of the relevancy profiler.  In addition to computed metrics, a number of data files are saved.  These files are provided so that it's possible to perform root cause analysis of the output for the run.  The metrics are great at helping you understand if your relevancy tuning changes are improving or hurting the overall relevancy while the data outputted will help you figure out what happened so you can decide what tuning actions to take next.
