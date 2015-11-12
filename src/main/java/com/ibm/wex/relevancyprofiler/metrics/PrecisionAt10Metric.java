@@ -2,9 +2,11 @@ package com.ibm.wex.relevancyprofiler.metrics;
 
 
 import com.ibm.wex.relevancyprofiler.ProfilingSession;
+import com.ibm.wex.relevancyprofiler.VelocityDocument;
 import com.ibm.wex.relevancyprofiler.VelocityQuery;
 
-public class PrecisionMetric implements IRelevancyMetric {
+public class PrecisionAt10Metric implements IRelevancyMetric {
+    private final int N = 10;
 
     public Double calculate(ProfilingSession results) {
         // relevantDocumentCount = sum the number of expectations per query
@@ -13,8 +15,13 @@ public class PrecisionMetric implements IRelevancyMetric {
         int retrievedCount = 0;
         int intersectionOfRelevantRetrieved = 0;
         for (VelocityQuery q : results.getQueriesAndResults()) {
-            retrievedCount += q.getTotalRetrieved();
-            intersectionOfRelevantRetrieved += q.getExpectedResults().size();
+            retrievedCount += Math.min(q.getTotalRetrieved(), N);
+
+            for (VelocityDocument expected : q.getExpectedResults()) {
+                if (expected.getRank() < N) {
+                    intersectionOfRelevantRetrieved += 1;
+                }
+            }
         }
 
         // recall = intersectionOfRelevantRetrieved / relevantDocumentCount
@@ -26,10 +33,10 @@ public class PrecisionMetric implements IRelevancyMetric {
     }
 
     public String getName() {
-        return "Precision";
+        return "Precision at " + N;
     }
 
     public String getDescription() {
-        return "From Wikipedia: In the field of information retrieval, precision is the fraction of retrieved documents that are relevant to the query. Precision takes all retrieved documents into account, but it can also be evaluated at a given cut-off rank, considering only the topmost results returned by the system. This measure is called precision at n or P@n.  See also: https://en.wikipedia.org/wiki/Precision_and_recall  P@n in this case is determined by the 'Max Results' parameter.";
+        return "Precision metric taking into account only the first " + N + " results.";
     }
 }
