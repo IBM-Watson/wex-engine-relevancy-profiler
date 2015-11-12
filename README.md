@@ -64,7 +64,7 @@ The relevancy profiler tool uses older terminology to refer to some components. 
 | `-s,--sleep <arg>`                | Optional  (Default 0). The amount of time in ms to wait between queries. |
 | `-v,--velocity <arg>`             | Valid URL which points to the full Velocity endpoint. |
 
-Here's an example for running the relevancy profiler against a localhost Engine instance.
+Here's an example for running the relevancy profiler against a Windows-based localhost Engine instance.
 
 ```
 java -jar relevancy-profiler-jar-with-dependencies.jar -p query-meta -v http://localhost:9080/vivisimo/cgi-bin/query-meta.exe -i queries-to-profile.csv -o sample-output
