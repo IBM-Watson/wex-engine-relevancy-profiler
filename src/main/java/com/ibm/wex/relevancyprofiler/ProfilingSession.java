@@ -1,5 +1,8 @@
 package com.ibm.wex.relevancyprofiler;
 
+import com.ibm.wex.relevancyprofiler.resultfetchers.IResultFetcher;
+import com.ibm.wex.relevancyprofiler.groundtruth.Expectation;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -116,7 +119,7 @@ public class ProfilingSession {
 	 * Performs a search on Velocity for the given expected queries for this profiling session.
 	 * @param connector Queries Velocity.
 	 */
-	public void searchVelocity(final IVelocityConnector connector) {	
+	public void searchVelocity(final IResultFetcher connector) {
 		ExecutorService threadExecutor = Executors.newFixedThreadPool(_numberOfThreads);
 		
 		for (final VelocityQuery q : _querySet) {

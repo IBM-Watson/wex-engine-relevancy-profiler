@@ -7,17 +7,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibm.wex.relevancyprofiler.ProfilingSession;
-import com.ibm.wex.relevancyprofiler.VelocityDocument;
-
-
 
 public class ProfilingSessionTest {
 
 	private ProfilingSession _session = null;
 	private VelocityDocument _testDoc1 = null;
 	private VelocityDocument _testDoc2 = null;
-	private MockVelocityQueryConnector _mock = null;
+	private MockResultFetcher _mock = null;
 	
 	
 	@Before
@@ -44,7 +40,7 @@ public class ProfilingSessionTest {
 		_testDoc1.setNaturalRank(10);
 		_testDoc1.setBaseScore(19);
 		
-		_mock = new MockVelocityQueryConnector();
+		_mock = new MockResultFetcher();
 		_mock.addDocumentToResults(_testDoc1);
 		_mock.addDocumentToResults(_testDoc2);
 	}

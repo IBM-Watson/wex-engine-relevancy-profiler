@@ -3,7 +3,7 @@ package com.ibm.wex.relevancyprofiler.filters;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.wex.relevancyprofiler.Expectation;
+import com.ibm.wex.relevancyprofiler.groundtruth.Expectation;
 import com.ibm.wex.relevancyprofiler.ProfilingSession;
 import com.ibm.wex.relevancyprofiler.VelocityQuery;
 

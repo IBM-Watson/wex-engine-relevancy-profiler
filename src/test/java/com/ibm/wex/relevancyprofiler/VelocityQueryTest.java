@@ -5,17 +5,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ibm.wex.relevancyprofiler.Expectation;
-import com.ibm.wex.relevancyprofiler.VelocityDocument;
-import com.ibm.wex.relevancyprofiler.VelocityQuery;
-
+import com.ibm.wex.relevancyprofiler.groundtruth.Expectation;
 
 
 public class VelocityQueryTest {
 	
 	private VelocityQuery _query = null;
 	
-	private MockVelocityQueryConnector _mock = null;
+	private MockResultFetcher _mock = null;
 	private VelocityDocument _testDoc1 = null;
 	private VelocityDocument _testDoc2 = null;
 
@@ -37,7 +34,7 @@ public class VelocityQueryTest {
 		_testDoc2.setSource("test-source");
 		_testDoc2.setVseKey("http://blarg.com:80/testDocument2.html");
 		
-		_mock = new MockVelocityQueryConnector();
+		_mock = new MockResultFetcher();
 	}
 
 	@After

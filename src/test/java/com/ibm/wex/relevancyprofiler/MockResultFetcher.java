@@ -3,13 +3,10 @@ package com.ibm.wex.relevancyprofiler;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.wex.relevancyprofiler.IVelocityConnector;
-import com.ibm.wex.relevancyprofiler.VelocityDocument;
-import com.ibm.wex.relevancyprofiler.VelocityQuery;
+import com.ibm.wex.relevancyprofiler.resultfetchers.IResultFetcher;
 
 
-
-public class MockVelocityQueryConnector implements IVelocityConnector {
+public class MockResultFetcher implements IResultFetcher {
 
 	private List<VelocityDocument> _documents = new ArrayList<VelocityDocument>();
 

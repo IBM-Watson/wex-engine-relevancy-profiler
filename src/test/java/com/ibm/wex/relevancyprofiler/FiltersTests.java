@@ -16,7 +16,7 @@ public class FiltersTests {
 	private ProfilingSession _session = null;
 	private VelocityDocument _testDoc1 = null;
 	private VelocityDocument _testDoc2 = null;
-	private MockVelocityQueryConnector _mock = null;
+	private MockResultFetcher _mock = null;
 	
 	
 	@Before
@@ -39,7 +39,7 @@ public class FiltersTests {
 		_testDoc2.setVseKey("http://blarg.com:80/testDocument2.html");
 		_testDoc2.setDesiredAtLeastRank(10);
 		
-		_mock = new MockVelocityQueryConnector();
+		_mock = new MockResultFetcher();
 		_mock.addDocumentToResults(_testDoc1);
 		_mock.addDocumentToResults(_testDoc2);
 	}
@@ -57,7 +57,7 @@ public class FiltersTests {
 	public void shouldGetQueriesWithNoResults() {
 		_session.addExpectation("blag", "bundle", "blah blah blah", 5);
 
-		_session.searchVelocity(new MockVelocityQueryConnector());
+		_session.searchVelocity(new MockResultFetcher());
 		
 		IResultsFilter filter = new QueriesWithNoResultsFilter();
 		List<FilterRecord> results = filter.filterResults(_session);

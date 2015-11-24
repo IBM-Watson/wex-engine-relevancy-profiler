@@ -4,8 +4,6 @@ package com.ibm.wex.relevancyprofiler;
 import org.junit.After;
 import org.junit.Before;
 
-import com.ibm.wex.relevancyprofiler.ProfilingSession;
-import com.ibm.wex.relevancyprofiler.VelocityDocument;
 import com.ibm.wex.relevancyprofiler.metrics.IRelevancyMetric;
 
 
@@ -16,13 +14,13 @@ public abstract class RelevancyMetricsTest {
 	private ProfilingSession _session = null;
 	private VelocityDocument _testDoc1 = null;
 	private VelocityDocument _testDoc2 = null;
-	private MockVelocityQueryConnector _mock = null;
+	private MockResultFetcher _mock = null;
 	
 	public IRelevancyMetric getMetric() { return _metric; }
 	public ProfilingSession getSession() { return _session; }
 	public VelocityDocument getTestDoc1() { return _testDoc1; }
 	public VelocityDocument getTestDoc2() { return _testDoc2; }
-	public MockVelocityQueryConnector getMock() { return _mock; }
+	public MockResultFetcher getMock() { return _mock; }
 
 	public double getDelta() { return 0.01; }
 	
@@ -47,7 +45,7 @@ public abstract class RelevancyMetricsTest {
 		_testDoc2.setVseKey("http://blarg.com:80/testDocument2.html");
 		_testDoc2.setDesiredAtLeastRank(10);
 		
-		_mock = new MockVelocityQueryConnector();
+		_mock = new MockResultFetcher();
 		_mock.addDocumentToResults(_testDoc1);
 		_mock.addDocumentToResults(_testDoc2);
 	}

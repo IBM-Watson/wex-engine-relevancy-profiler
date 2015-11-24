@@ -6,6 +6,14 @@ import com.ibm.wex.relevancyprofiler.VelocityQuery;
 
 public class PrecisionAtNMetric implements IRelevancyMetric {
 
+    private int _N;
+
+    public PrecisionAtNMetric() { }
+
+    public PrecisionAtNMetric(int n) {
+        _N = n;
+    }
+
     public Double calculate(ProfilingSession results) {
         // relevantDocumentCount = sum the number of expectations per query
         // intersectionOfRelevantRetrieved = sum the number of expectations found per query

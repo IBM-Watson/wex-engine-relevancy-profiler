@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.ibm.wex.relevancyprofiler.Expectation;
+import com.ibm.wex.relevancyprofiler.groundtruth.Expectation;
 import com.ibm.wex.relevancyprofiler.ProfilingSession;
 import com.ibm.wex.relevancyprofiler.VelocityDocument;
 import com.ibm.wex.relevancyprofiler.VelocityQuery;

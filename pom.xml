@@ -45,7 +45,7 @@
             </descriptorRefs>
             <archive>
               <manifest>
-                <mainClass>com.ibm.wex.relevancyprofiler.Profiler</mainClass>
+                <mainClass>com.ibm.wex.relevancyprofiler.CLI.Profiler</mainClass>
               </manifest>
             </archive>
           </configuration>
