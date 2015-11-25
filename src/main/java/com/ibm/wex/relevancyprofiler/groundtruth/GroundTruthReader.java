@@ -34,6 +34,9 @@ public class GroundTruthReader {
                     String source = queryRecord.get(1);
                     String expectedUrl = queryRecord.get(2);
 
+                    // the whole idea of expected rank is probably not important
+                    // with the new ways of computing the desired IR metrics
+                    // consider removing in the future XXXXX
                     int expectedRank = 10;
                     if (queryRecord.getRecordNumber() > 3) {
                         expectedRank = Integer.parseInt(queryRecord.get(3));
