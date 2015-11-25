@@ -13,8 +13,8 @@ public class ResultFetcherFactory {
             case EngineXMLFeedDebug:
                 return new EngineXmlFeedDebugResultFetcher(options);
 
-//            case EngineXMLFeed:
-//                return new XMLFeedFetcher(options);
+            case EngineXMLFeed:
+                return new XMLFeedFetcher(options);
 //
 //            case EngineSearch:
 //                return null;

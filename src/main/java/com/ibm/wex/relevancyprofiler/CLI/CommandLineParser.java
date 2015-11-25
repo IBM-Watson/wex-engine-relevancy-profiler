@@ -8,12 +8,12 @@ public class CommandLineParser {
 
     private final String _helpFlag = "h";
     private final String _groundTruthPathFlag = "g";
-    private final String _sleepTimeFlag = "s";
+    private final String _sleepTimeFlag = "t";
     private final String _threadCountFlag = "c";
     private final String _metricsOnlyFlag = "m";
     private final String _outPathFlag = "o";
 
-    private final String _inputModeFlag = "i";  // vxmlfeed|vapi|vsearch|file
+    private final String _inputModeFlag = "i";
 
     // Engine XML Feed Options
     private final String _projectSettingsFlag = "s";
@@ -69,7 +69,7 @@ public class CommandLineParser {
 
         // Engine Options
         options.addOption(_engineEndPointUrlFlag, "engine-endpoint", true, "(Required for all Engine input modes). Valid URL which points to the full Engine endpoint in the style needed for the type of search requests being conducted.");
-        options.addOption(_projectSettingsFlag, "project-settings", true, "The Engine project settings to be used for searching a Velocity XML Feed.");
+        options.addOption(_projectSettingsFlag, "project-settings", true, "The Engine project settings to be used for searching a Engine XML Feed.");
         options.addOption(_usernameFlag, "api-username", true, "(Required for " + InputModes.InputMode.EngineAPI.toString() + "). The username to authenticate against the Engine API.");
         options.addOption(_passwordFlag, "api-password", true, "(Required for " + InputModes.InputMode.EngineAPI.toString() + "). The password to authenticate against the Engine API.");
         options.addOption(_maxResultsFlag, "max-results", true, "Optional (Default " + ProfilerOptions.DEFAULT_MAX_RESULTS + ").  The number of results to limit the results set. Only used with Engine search modes.");

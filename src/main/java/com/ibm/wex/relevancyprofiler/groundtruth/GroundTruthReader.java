@@ -38,8 +38,10 @@ public class GroundTruthReader {
                     // with the new ways of computing the desired IR metrics
                     // consider removing in the future XXXXX
                     int expectedRank = 10;
-                    if (queryRecord.getRecordNumber() > 3) {
-                        expectedRank = Integer.parseInt(queryRecord.get(3));
+                    if (queryRecord.size() > 3) {
+                        if (!queryRecord.get(3).isEmpty()) {
+                            expectedRank = Integer.parseInt(queryRecord.get(3));
+                        }
                     }
 
                     expectations.AddExpectation(query, source, expectedUrl, expectedRank);

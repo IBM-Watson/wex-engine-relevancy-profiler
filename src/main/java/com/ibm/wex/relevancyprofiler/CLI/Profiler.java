@@ -12,6 +12,10 @@ public class Profiler {
         Profiler p = new Profiler();
         ProfilerOptions settings = p.LoadCommandLine(args);
 
+        if (settings == null) {
+            return;
+        }
+
         // Load the Ground Truth information
         GroundTruthReader gtReader = new GroundTruthReader();
         GroundTruth golden = gtReader.Load(settings.getGroundTruthPath());
@@ -26,6 +30,7 @@ public class Profiler {
             e.printStackTrace();
         }
 
+        System.out.println(results);
 
         // Run the reports
 
