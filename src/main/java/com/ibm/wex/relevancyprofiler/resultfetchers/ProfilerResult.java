@@ -17,9 +17,17 @@ public class ProfilerResult {
     public String getQuery() { return _query; }
     public String getQuerySource() { return _querySource; }
 
+    public int getTotalResults() { return _totalResults; }
+    public void setTotalResults(int value) { _totalResults = value; }
 
-    public void addResult(RankedResult resultToAdd) {
 
+    public ProfilerResult(String query, String querySource) {
+        _query = query;
+        _querySource = querySource;
+    }
+
+    public void addInterestingResult(RankedResult resultToAdd) {
+        _interestingResults.add(resultToAdd);
     }
 
 

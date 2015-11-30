@@ -13,7 +13,7 @@ public class ProfilerResultSet {
 
     public void addResult(String query, String source, RankedResult result) {
         String key = initializeForQuery(query, source);
-        _results.get(key).addResult(result);
+        _results.get(key).addInterestingResult(result);
     }
 
 
@@ -23,19 +23,28 @@ public class ProfilerResultSet {
     }
 
 
+    public void addResultNotFound(String query, String source, String expectedKey) {
+        String key = initializeForQuery(query, source);
+        _results.get(key).addResultsNotFound(expectedKey);
+    }
+
+
+    public void setTotalCount(String query, String source, int totalResults) {
+        String key = initializeForQuery(query, source);
+        _results.get(key).setTotalResults(totalResults);
+    }
+
+
+
+
     private String initializeForQuery(String query, String source) {
         String key = query + " :: " + source;
 
         if(!_results.containsKey(key)) {
-            _results.put(key, new ProfilerResult());
+            _results.put(key, new ProfilerResult(query, source));
         }
 
         return key;
     }
 
-
-    public void addResultNotFound(String query, String source, String expectedKey) {
-        String key = initializeForQuery(query, source);
-        _results.get(key).addResultsNotFound(expectedKey);
-    }
 }

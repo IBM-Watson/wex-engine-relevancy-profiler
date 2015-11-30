@@ -11,6 +11,7 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -52,10 +53,14 @@ public class XMLFeedFetcher implements IResultFetcher {
 
                 // this issues the same query multiple times potentially....
                 // should figure out how to optimize
-                NodeList records = parseResults(xml);
+                Document xmlDoc = buildXmlDocument(xml);
+                int totalResults = getResultsCount(xmlDoc);
+                NodeList records = getDocumentResults(xmlDoc);
+
                 RankedResult firstResult = getFirstResult(records);
 
                 if (firstResult != null) {
+                    results.setTotalCount(query, expectation.getSource(), totalResults);
                     results.setFirstHit(query, expectation.getSource(), firstResult);
 
                     if (firstResult.keysMatch(expectation.getUrl())) {
@@ -82,36 +87,49 @@ public class XMLFeedFetcher implements IResultFetcher {
     }
 
 
-    private NodeList parseResults(String xml) {
+
+    private Document buildXmlDocument(String xml) {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
+            DocumentBuilder db = null;
+            db = dbf.newDocumentBuilder();
+
             InputSource is = new InputSource();
             is.setCharacterStream(new StringReader(xml));
 
-            Document doc = db.parse(is);
+            return db.parse(is);
 
-            NodeList list = doc.getElementsByTagName("list");
-            if (list == null || list.getLength() < 1) {
-                return null;
-            }
-            else {
-                Node listNode = list.item(0);
-                int num = Integer.parseInt(listNode.getAttributes().getNamedItem("num").getNodeValue()); // total number of results returned
-                int per = Integer.parseInt(listNode.getAttributes().getNamedItem("per").getNodeValue()); // total number of results requested
-                if (num != per) {
-                    System.out.println("May have not requested enough documents.");
-                }
-            }
-
-            return doc.getElementsByTagName("document");
-        } catch(Exception e) {
-            System.out.println(xml);
+        } catch (Exception e) {
+            System.out.println("Problem parsing the results XML.");
+            // System.out.println(xml);
             System.out.flush();
             e.printStackTrace();
+
+            return null;
+        }
+    }
+
+
+    private int getResultsCount(Document xml) {
+        Node documentList = xml.getElementsByTagName("list").item(0);
+
+        if (documentList == null) {
+            return 0;
         }
 
-        return null;
+        int num = Integer.parseInt(documentList.getAttributes().getNamedItem("num").getNodeValue()); // total number of results returned
+        int per = Integer.parseInt(documentList.getAttributes().getNamedItem("per").getNodeValue()); // total number of results requested
+
+        if (num > per) {
+            System.out.println("May have not requested all results - make sure num and per values are high enough.");
+        }
+
+        return num;
+    }
+
+
+    private NodeList getDocumentResults(Document xml) {
+        return xml.getElementsByTagName("document");
     }
 
 
@@ -126,7 +144,7 @@ public class XMLFeedFetcher implements IResultFetcher {
         while (topHit == null && i < records.getLength()) {
             Element currentElement = (Element) records.item(i);
 
-            if (!currentElement.getAttribute("vse-key").isEmpty()) {
+            if (!currentElement.getAttribute("url").isEmpty()) {
                 topHit = currentElement;
             }
             else {
@@ -141,9 +159,8 @@ public class XMLFeedFetcher implements IResultFetcher {
         }
 
         // save the top result
-        Element firstRecord = (Element) records.item(i);
-        RankedResult topResult = createRankedResultFromXML(firstRecord);
-        topResult.setRank(topResult.getRank() - spotlightCount); // boosted documents cause the rank to increment
+        RankedResult topResult = createRankedResultFromXML(topHit);
+        topResult.setRank(topResult.getNaturalRank() - spotlightCount); // boosted documents cause the rank to increment
 
         return topResult;
     }
@@ -159,7 +176,7 @@ public class XMLFeedFetcher implements IResultFetcher {
         while (topHit == null && i < records.getLength()) {
             Element currentElement = (Element) records.item(i);
 
-            if (!currentElement.getAttribute("vse-key").isEmpty()) {
+            if (!currentElement.getAttribute("url").isEmpty()) {
                 topHit = currentElement;
             }
             else {
@@ -178,7 +195,7 @@ public class XMLFeedFetcher implements IResultFetcher {
             RankedResult result = createRankedResultFromXML(record);
 
             if (result.keysMatch(expectation.getUrl())) {
-                result.setRank(result.getRank() - spotlightCount);
+                result.setRank(result.getNaturalRank() - spotlightCount);
                 return result;
             }
         }
@@ -239,22 +256,22 @@ public class XMLFeedFetcher implements IResultFetcher {
     private RankedResult createRankedResultFromXML(Element xml) {
         // have to use both because either one could have
         // been given to us to verify
-        String vseKey = xml.getAttribute("vse-key");
-        String url = xml.getAttribute("url");
+        String url = xml.getAttribute("url");  // debug version returns vse-key
+        String truncatedUrl = xml.getAttribute("truncated-url");
         String source = xml.getAttribute("source");
-        double laScore = Double.parseDouble(xml.getAttribute("la-score"));
+        // double laScore = Double.parseDouble(xml.getAttribute("la-score"));
         double score = Double.parseDouble(xml.getAttribute("score"));
         // double baseScore = xml.getAttribute("vse-base-score");
         int rank = Integer.parseInt(xml.getAttribute("rank"));
 
         RankedResult result = new RankedResult();
-        result.setLinkAnalysisScore(laScore);
-        result.setKey(vseKey);
-        result.setSecondaryKey(url);
+        // result.setLinkAnalysisScore(laScore);
+        result.setKey(url);
+        result.setSecondaryKey(truncatedUrl);
         result.setOriginSource(source);
         result.setScore(score);
         result.setNaturalRank(rank);
-//        result.setBaseScore(baseScore);
+        // result.setBaseScore(baseScore);
 
         return result;
     }
