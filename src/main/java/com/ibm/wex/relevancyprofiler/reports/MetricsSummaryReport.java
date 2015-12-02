@@ -26,6 +26,8 @@ public class MetricsSummaryReport {
         Precision p50 = new Precision(50);
         System.out.println("P@50 = " + p50.calculate(results) );
 
+        MeanRankOfFoundExpected meanRank = new MeanRankOfFoundExpected();
+        System.out.println("Mean Rank = " + meanRank.calculate(results));
 
     }
 

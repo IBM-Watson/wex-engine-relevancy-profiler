@@ -6,7 +6,7 @@ import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResultSet;
 
 
 
-public class Recall {
+public class Recall implements IMetric {
 
     public double calculate(ProfilerResultSet results) {
         int totalRelevantRetrieved = 0;

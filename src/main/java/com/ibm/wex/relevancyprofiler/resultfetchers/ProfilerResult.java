@@ -10,8 +10,8 @@ public class ProfilerResult {
     private String _querySource = "";
     private int _totalResults = 0;
 
-    private RankedResult _topResult = null;
-    private List<RankedResult> _interestingResults = new ArrayList<RankedResult>();
+    private ResultDetails _topResult = null;
+    private List<ResultDetails> _interestingResults = new ArrayList<ResultDetails>();
     private List<String> _expectedNotFound = new ArrayList<String>();
 
 
@@ -28,11 +28,11 @@ public class ProfilerResult {
     public void setTotalResults(int value) { _totalResults = value; }
 
 
-    public void addInterestingResult(RankedResult resultToAdd) {
+    public void addInterestingResult(ResultDetails resultToAdd) {
         _interestingResults.add(resultToAdd);
     }
 
-    public Collection<RankedResult> getInterestingResults() {
+    public Collection<ResultDetails> getInterestingResults() {
         return _interestingResults;
     }
 
@@ -41,7 +41,7 @@ public class ProfilerResult {
     }
 
 
-    public void setFirstHit(RankedResult firstResult) {
+    public void setFirstHit(ResultDetails firstResult) {
         // maybe should check if they aren't the same or something?
         // should this be set twice?  What would that mean?
         // throw or log an error... ?
@@ -55,10 +55,10 @@ public class ProfilerResult {
     }
 
 
-    public Collection<RankedResult> getInterestingResultsAt(int n) {
-        List<RankedResult> interestResultsAtN = new ArrayList<RankedResult>();
+    public Collection<ResultDetails> getInterestingResultsAt(int n) {
+        List<ResultDetails> interestResultsAtN = new ArrayList<ResultDetails>();
 
-        for (RankedResult result : _interestingResults) {
+                for (ResultDetails result : _interestingResults) {
             if (result.getRank() < n) {
                 interestResultsAtN.add(result);
             }

@@ -11,7 +11,6 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -57,7 +56,7 @@ public class XMLFeedFetcher implements IResultFetcher {
                 int totalResults = getResultsCount(xmlDoc);
                 NodeList records = getDocumentResults(xmlDoc);
 
-                RankedResult firstResult = getFirstResult(records);
+                ResultDetails firstResult = getFirstResult(records);
 
                 if (firstResult != null) {
                     results.setTotalCount(query, expectation.getSource(), totalResults);
@@ -67,7 +66,7 @@ public class XMLFeedFetcher implements IResultFetcher {
                         results.addResult(query, expectation.getSource(), firstResult);
                     }
                     else {
-                        RankedResult interesting = getInterestingResult(records, expectation);
+                        ResultDetails interesting = getInterestingResult(records, expectation);
                         if (interesting == null) {
                             results.addResultNotFound(query, expectation.getSource(), expectation.getUrl());
                         }
@@ -133,7 +132,7 @@ public class XMLFeedFetcher implements IResultFetcher {
     }
 
 
-    private RankedResult getFirstResult(NodeList records) {
+    private ResultDetails getFirstResult(NodeList records) {
         if (records == null || records.getLength() == 0) {
             return null;
         }
@@ -159,13 +158,13 @@ public class XMLFeedFetcher implements IResultFetcher {
         }
 
         // save the top result
-        RankedResult topResult = createRankedResultFromXML(topHit);
+        ResultDetails topResult = createRankedResultFromXML(topHit);
         topResult.setRank(topResult.getNaturalRank() - spotlightCount); // boosted documents cause the rank to increment
 
         return topResult;
     }
 
-    private RankedResult getInterestingResult(NodeList records, Expectation expectation) {
+    private ResultDetails getInterestingResult(NodeList records, Expectation expectation) {
         if (records == null || records.getLength() == 0) {
             return null;
         }
@@ -192,7 +191,7 @@ public class XMLFeedFetcher implements IResultFetcher {
 
         for (; i < records.getLength(); i++) {
             Element record = (Element) records.item(i);
-            RankedResult result = createRankedResultFromXML(record);
+            ResultDetails result = createRankedResultFromXML(record);
 
             if (result.keysMatch(expectation.getUrl())) {
                 result.setRank(result.getNaturalRank() - spotlightCount);
@@ -253,7 +252,7 @@ public class XMLFeedFetcher implements IResultFetcher {
 
 
 
-    private RankedResult createRankedResultFromXML(Element xml) {
+    private ResultDetails createRankedResultFromXML(Element xml) {
         // have to use both because either one could have
         // been given to us to verify
         String url = xml.getAttribute("url");  // debug version returns vse-key
@@ -264,7 +263,7 @@ public class XMLFeedFetcher implements IResultFetcher {
         // double baseScore = xml.getAttribute("vse-base-score");
         int rank = Integer.parseInt(xml.getAttribute("rank"));
 
-        RankedResult result = new RankedResult();
+        ResultDetails result = new ResultDetails();
         // result.setLinkAnalysisScore(laScore);
         result.setKey(url);
         result.setSecondaryKey(truncatedUrl);

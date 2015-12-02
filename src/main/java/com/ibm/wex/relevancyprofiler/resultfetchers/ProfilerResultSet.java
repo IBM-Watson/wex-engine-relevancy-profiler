@@ -12,13 +12,13 @@ public class ProfilerResultSet {
     public ProfilerResultSet() { }
 
 
-    public void addResult(String query, String source, RankedResult result) {
+    public void addResult(String query, String source, ResultDetails result) {
         String key = initializeForQuery(query, source);
         _results.get(key).addInterestingResult(result);
     }
 
 
-    public void setFirstHit(String query, String source, RankedResult firstResult) {
+    public void setFirstHit(String query, String source, ResultDetails firstResult) {
         String key = initializeForQuery(query, source);
         _results.get(key).setFirstHit(firstResult);
     }

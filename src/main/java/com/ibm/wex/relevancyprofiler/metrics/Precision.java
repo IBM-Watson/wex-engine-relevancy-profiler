@@ -4,7 +4,7 @@ package com.ibm.wex.relevancyprofiler.metrics;
 import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResult;
 import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResultSet;
 
-public class Precision {
+public class Precision implements IMetric {
 
     private int _n = -1;
 

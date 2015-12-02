@@ -1,7 +1,7 @@
 package com.ibm.wex.relevancyprofiler.resultfetchers;
 
 
-public class RankedResult {
+public class ResultDetails {
     private String _key = "";
     private String _secondaryKey = "";
     private String _originSource = "";
