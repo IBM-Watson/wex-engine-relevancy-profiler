@@ -1,5 +1,6 @@
 package com.ibm.wex.relevancyprofiler.CLI;
 
+import com.ibm.wex.relevancyprofiler.reports.MetricsSummaryReport;
 import com.ibm.wex.relevancyprofiler.resultfetchers.*;
 import com.ibm.wex.relevancyprofiler.groundtruth.GroundTruth;
 import com.ibm.wex.relevancyprofiler.groundtruth.GroundTruthReader;
@@ -30,9 +31,10 @@ public class Profiler {
             e.printStackTrace();
         }
 
-        System.out.println(results);
-
         // Run the reports
+        MetricsSummaryReport r = new MetricsSummaryReport();
+        r.writeReport(results);
+
 
 
 

@@ -1,6 +1,7 @@
 package com.ibm.wex.relevancyprofiler.resultfetchers;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,11 @@ public class ProfilerResultSet {
     public void setTotalCount(String query, String source, int totalResults) {
         String key = initializeForQuery(query, source);
         _results.get(key).setTotalResults(totalResults);
+    }
+
+
+    public Collection<ProfilerResult> getResults() {
+        return _results.values();
     }
 
 
