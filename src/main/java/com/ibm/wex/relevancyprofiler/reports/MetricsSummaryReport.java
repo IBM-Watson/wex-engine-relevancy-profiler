@@ -29,6 +29,30 @@ public class MetricsSummaryReport {
         MeanRankOfFoundExpected meanRank = new MeanRankOfFoundExpected();
         System.out.println("Mean Rank = " + meanRank.calculate(results));
 
+        MeanAveragePrecisionOfExpected map = new MeanAveragePrecisionOfExpected();
+        System.out.println("MAP = " + map.calculate(results));
+
+        MeanAveragePrecisionOfExpected map1 = new MeanAveragePrecisionOfExpected(1);
+        System.out.println("MAP@1 = " + map1.calculate(results));
+
+        MeanAveragePrecisionOfExpected map3 = new MeanAveragePrecisionOfExpected(3);
+        System.out.println("MAP@3 = " + map3.calculate(results));
+
+        MeanAveragePrecisionOfExpected map10 = new MeanAveragePrecisionOfExpected(10);
+        System.out.println("MAP@10 = " + map10.calculate(results));
+
+        MeanAveragePrecisionOfExpected map50 = new MeanAveragePrecisionOfExpected(50);
+        System.out.println("MAP@50 = " + map50.calculate(results));
+
+        MeanReciprocalRankOfExpected mrr = new MeanReciprocalRankOfExpected();
+        System.out.println("MRR = " + mrr.calculate(results));
+
+        NormalizedDiscountedCumulativeGainOfExpected ndcg = new NormalizedDiscountedCumulativeGainOfExpected();
+        System.out.println("NDCG = " + ndcg.calculate(results));
+
+        System.out.println("Queries with 0 Results = " + results.getQueriesWithNoResults().size());
+        System.out.println("Number Expected Results Not Found = " + results.getCountOfExpectedNotFound());
+
     }
 
 }

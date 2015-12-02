@@ -4,6 +4,7 @@ package com.ibm.wex.relevancyprofiler.resultfetchers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.zip.ZipFile;
 
 public class ProfilerResult {
     private String _query = "";
@@ -58,12 +59,24 @@ public class ProfilerResult {
     public Collection<ResultDetails> getInterestingResultsAt(int n) {
         List<ResultDetails> interestResultsAtN = new ArrayList<ResultDetails>();
 
-                for (ResultDetails result : _interestingResults) {
+        for (ResultDetails result : _interestingResults) {
             if (result.getRank() < n) {
                 interestResultsAtN.add(result);
             }
         }
 
         return interestResultsAtN;
+    }
+
+    public Collection<String> getExpectations() {
+        Collection<String> expectations = new ArrayList<String>();
+
+        expectations.addAll(_expectedNotFound);
+
+        for (ResultDetails details : _interestingResults) {
+            expectations.add(details.getKey());
+        }
+
+        return expectations;
     }
 }

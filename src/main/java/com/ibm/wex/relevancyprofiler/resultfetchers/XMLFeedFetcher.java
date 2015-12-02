@@ -208,6 +208,7 @@ public class XMLFeedFetcher implements IResultFetcher {
         try {
             String urlString = _urlRoot + CreateCgiParams(query, source);
 
+
             System.out.println("query = " + query);
 //			System.out.println(urlString);
 

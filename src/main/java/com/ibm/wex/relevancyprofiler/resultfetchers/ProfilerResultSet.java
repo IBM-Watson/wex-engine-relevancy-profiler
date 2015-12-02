@@ -1,9 +1,11 @@
 package com.ibm.wex.relevancyprofiler.resultfetchers;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipFile;
 
 public class ProfilerResultSet {
     private Map<String, ProfilerResult> _results = new HashMap<String, ProfilerResult>();
@@ -40,6 +42,7 @@ public class ProfilerResultSet {
         return _results.values();
     }
 
+    public int getQueryCount() { return _results.keySet().size(); }
 
 
 
@@ -53,4 +56,24 @@ public class ProfilerResultSet {
         return key;
     }
 
+    public Collection<String> getQueriesWithNoResults() {
+        Collection<String> zeroResultQueries = new ArrayList<String>();
+        for (ProfilerResult r : _results.values()) {
+            if (r.getTotalResults() == 0) {
+                zeroResultQueries.add(r.getQuery());
+            }
+        }
+
+        return zeroResultQueries;
+    }
+
+
+    public int getCountOfExpectedNotFound() {
+        int expectedNotFound = 0;
+        for (ProfilerResult r : _results.values()) {
+            expectedNotFound += r.getExpectedNotFoundResults().size();
+        }
+
+        return expectedNotFound;
+    }
 }
