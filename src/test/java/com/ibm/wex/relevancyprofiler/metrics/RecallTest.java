@@ -1,7 +1,6 @@
 package com.ibm.wex.relevancyprofiler.metrics;
 
 
-import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResult;
 import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResultSet;
 import com.ibm.wex.relevancyprofiler.resultfetchers.ResultDetails;
 import org.junit.After;
@@ -47,7 +46,7 @@ public class RecallTest {
         Double result = _subject.calculate(_mockResults);
         Assert.assertEquals(0.0, result, _delta);
     }
-    
+
 
     @Test
     public void should_get_100_percent_recall_when_1_of_1_expected_results_are_found() {
