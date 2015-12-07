@@ -39,7 +39,7 @@ public class MeanAveragePrecisionOfExpected implements IMetric {
         Collection<ResultDetails> details = null;
         if (_n > 0) {
             countOfRetrieved = Math.min(_n, countOfRetrieved);
-            details = result.getInterestingResultsAt(_n);
+            countOfRelevantRetrieved = result.getInterestingResultsAt(_n).size();
         }
 
         //compute precision for the query
