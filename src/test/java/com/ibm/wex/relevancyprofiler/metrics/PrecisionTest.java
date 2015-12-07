@@ -1,43 +1,15 @@
 package com.ibm.wex.relevancyprofiler.metrics;
 
 
-import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResultSet;
 import com.ibm.wex.relevancyprofiler.resultfetchers.ResultDetails;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-public class PrecisionTest {
+public class PrecisionTest extends MetricTestBase {
 
-    private Precision _subject = null;
-    private ProfilerResultSet _mockResults = null;
-
-    ResultDetails _details1 = null;
-
-    private final String _query = "TEST_QUERY";
-    private final String _source = "TEST_SOURCE";
-    private final double _delta = 0.01;
-
-    @Before
-    public void setUp() {
-        _subject = new Precision();
-        _mockResults = new ProfilerResultSet();
-
-        _details1 = new ResultDetails();
-        _details1.setRank(1);
-        _details1.setKey("DETAILS_1");
+    protected IMetric createMetric() {
+        return new Precision();
     }
-
-
-    @After
-    public void tearDown() {
-        _subject = null;
-        _mockResults = null;
-
-        _details1 = null;
-    }
-
 
     @Test
     public void should_get_0_percent_precision_when_no_expected_results_are_found() {
