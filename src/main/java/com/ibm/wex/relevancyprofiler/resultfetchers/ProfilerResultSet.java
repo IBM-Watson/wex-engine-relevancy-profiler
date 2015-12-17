@@ -3,12 +3,11 @@ package com.ibm.wex.relevancyprofiler.resultfetchers;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
-import java.util.zip.ZipFile;
 
 public class ProfilerResultSet {
-    private Map<String, ProfilerResult> _results = new HashMap<String, ProfilerResult>();
+    private Map<String, ProfilerResult> _results = new Hashtable<String, ProfilerResult>();
 
 
     public ProfilerResultSet() { }
