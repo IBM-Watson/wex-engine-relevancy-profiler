@@ -44,7 +44,7 @@ public class GroundTruthReader {
                         }
                     }
 
-                    expectations.AddExpectation(query, source, expectedUrl, expectedRank);
+                    expectations.AddExpectation(new Query(query, source), expectedUrl, expectedRank);
                 }
             }
         }

@@ -24,7 +24,12 @@ public class NormalizedDiscountedCumulativeGainOfExpected implements IMetric {
     private double normalizedDiscountedCumulativeGain(ProfilerResult result) {
         double dcg = discountedCumulativeGain(result.getInterestingResults());
         double ideal_dcg = idealDiscountedCumulativeGain(result.getExpectations().size());
-        return dcg / ideal_dcg;
+
+        if (ideal_dcg > 0) {
+            return dcg / ideal_dcg;
+        }
+
+        return 0;
     }
 
 
@@ -33,11 +38,11 @@ public class NormalizedDiscountedCumulativeGainOfExpected implements IMetric {
 
         for (ResultDetails details : results) {
             double relevance = 1.0;
-            int ranking = (details.getRank() + 1);
+            int ranking = (details.getRank());
             if (ranking > 1) {
                 // for all positions after the first one,
                 // reduce the "gain" as ranking increases
-                relevance /= logBase2(ranking + 1);
+                relevance /= logBase2(ranking + 2);
             }
 
             score += relevance;
@@ -53,7 +58,7 @@ public class NormalizedDiscountedCumulativeGainOfExpected implements IMetric {
         for (int ranking = 1; ranking <= n; ranking++) {
             double relevance = 1.0d;
             if (ranking > 1) {
-                relevance /= logBase2(ranking + 1);
+                relevance /= logBase2(ranking + 2);
             }
             score += relevance;
         }

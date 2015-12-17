@@ -60,7 +60,7 @@ public class ProfilerResult {
         List<ResultDetails> interestResultsAtN = new ArrayList<ResultDetails>();
 
         for (ResultDetails result : _interestingResults) {
-            if (result.getRank() < n) {
+            if (result.getRank() <= n) {
                 interestResultsAtN.add(result);
             }
         }

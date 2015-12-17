@@ -7,11 +7,11 @@ import java.util.Set;
 
 
 public class GroundTruth {
-    private HashMap<String, List<Expectation>> _expectations = new HashMap<String, List<Expectation>>();
+    private HashMap<Query, List<Expectation>> _expectations = new HashMap<Query, List<Expectation>>();
 
-    public Set<String> getQueries() { return _expectations.keySet(); }
+    public Set<Query> getQueries() { return _expectations.keySet(); }
 
-    public List<Expectation> getExpectationsFor(String query) {
+    public List<Expectation> getExpectationsFor(Query query) {
         if (_expectations.containsKey(query)){
             return _expectations.get(query);
         }
@@ -19,8 +19,8 @@ public class GroundTruth {
         return new ArrayList<Expectation>();
     }
 
-    public void AddExpectation(String query, String source, String expectedUrl, int expectedRank) {
-        Expectation e = new Expectation(expectedUrl, expectedRank, source);
+    public void AddExpectation(Query query, String expectedUrl, int expectedRank) {
+        Expectation e = new Expectation(expectedUrl, expectedRank, query.getSource(), query.getQueryString());
 
         if (_expectations.containsKey(query)) {
             _expectations.get(query).add(e);

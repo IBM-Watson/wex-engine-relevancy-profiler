@@ -3,6 +3,7 @@ package com.ibm.wex.relevancyprofiler.resultfetchers;
 import com.ibm.wex.relevancyprofiler.CLI.ProfilerOptions;
 import com.ibm.wex.relevancyprofiler.groundtruth.Expectation;
 import com.ibm.wex.relevancyprofiler.groundtruth.GroundTruth;
+import com.ibm.wex.relevancyprofiler.groundtruth.Query;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,43 +44,54 @@ public class XMLFeedFetcher implements IResultFetcher {
 
 
 
-    public ProfilerResultSet collectResults(GroundTruth golden) {
+    public ProfilerResultSet collectResults(GroundTruth golden)
+    {
         ProfilerResultSet results = new ProfilerResultSet();
 
-        for (String query : golden.getQueries()) {
-            for (Expectation expectation : golden.getExpectationsFor(query)) {
-                String xml = doQuery(query, expectation.getSource());
+        for (Query query : golden.getQueries())
+        {
+            String xml = doQuery(query.getQueryString(), query.getSource());
+            Document xmlDoc = buildXmlDocument(xml);
+            int totalResults = getResultsCount(xmlDoc);
+            NodeList records = getDocumentResults(xmlDoc);
 
-                // this issues the same query multiple times potentially....
-                // should figure out how to optimize
-                Document xmlDoc = buildXmlDocument(xml);
-                int totalResults = getResultsCount(xmlDoc);
-                NodeList records = getDocumentResults(xmlDoc);
+            ResultDetails firstResult = getFirstResult(records);
 
-                ResultDetails firstResult = getFirstResult(records);
+            results.setTotalCount(query.getQueryString(), query.getSource(), totalResults);
 
-                if (firstResult != null) {
-                    results.setTotalCount(query, expectation.getSource(), totalResults);
-                    results.setFirstHit(query, expectation.getSource(), firstResult);
-
-                    if (firstResult.keysMatch(expectation.getUrl())) {
-                        results.addResult(query, expectation.getSource(), firstResult);
-                    }
-                    else {
-                        ResultDetails interesting = getInterestingResult(records, expectation);
-                        if (interesting == null) {
-                            results.addResultNotFound(query, expectation.getSource(), expectation.getUrl());
-                        }
-                        else {
-                            results.addResult(query, expectation.getSource(), interesting);
-                        }
-                    }
-                }
-                else {
-                    results.addResultNotFound(query, expectation.getSource(), expectation.getUrl());
+            if (firstResult == null)
+            {
+                for (Expectation expectation : golden.getExpectationsFor(query))
+                {
+                    results.addResultNotFound(expectation.getQuery(), expectation.getSource(), expectation.getUrl());
                 }
             }
+            else
+            {
+                results.setFirstHit(query.getQueryString(), query.getSource(), firstResult);
 
+                for (Expectation expectation : golden.getExpectationsFor(query))
+                {
+                    if (firstResult.keysMatch(expectation.getUrl()))
+                    {
+                        results.addResult(expectation.getQuery(), expectation.getSource(), firstResult);
+                    }
+                    else
+                    {
+                        // this can be optimized a bit futher, maybe take a list of expectations and return
+                        // the findings instead of just doing one at a time
+                        ResultDetails interesting = getInterestingResult(records, expectation);
+                        if (interesting == null)
+                        {
+                            results.addResultNotFound(expectation.getQuery(), expectation.getSource(), expectation.getUrl());
+                        }
+                        else
+                        {
+                            results.addResult(expectation.getQuery(), expectation.getSource(), interesting);
+                        }
+                    }
+                }
+            }
         }
 
         return results;
@@ -159,7 +171,7 @@ public class XMLFeedFetcher implements IResultFetcher {
 
         // save the top result
         ResultDetails topResult = createRankedResultFromXML(topHit);
-        topResult.setRank(topResult.getNaturalRank() - spotlightCount); // boosted documents cause the rank to increment
+        topResult.setRank(i - spotlightCount + 1); // boosted documents cause the rank to increment
 
         return topResult;
     }
@@ -194,7 +206,7 @@ public class XMLFeedFetcher implements IResultFetcher {
             ResultDetails result = createRankedResultFromXML(record);
 
             if (result.keysMatch(expectation.getUrl())) {
-                result.setRank(result.getNaturalRank() - spotlightCount);
+                result.setRank(i - spotlightCount + 1);
                 return result;
             }
         }

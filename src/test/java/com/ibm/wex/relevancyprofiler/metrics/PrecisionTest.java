@@ -83,8 +83,9 @@ public class PrecisionTest extends MetricTestBase {
     public void should_get_precision_at_n_when_more_than_n_results_are_returned() {
         _subject = new Precision(10);
 
-        _mockResults.setTotalCount(_query, _source, 100);
+        _mockResults.setTotalCount(_query, _source, 10);
 
+        _details1.setRank(10);
         _mockResults.addResult(_query, _source, _details1);
         _mockResults.setFirstHit(_query, _source, _details1);
 
@@ -99,6 +100,7 @@ public class PrecisionTest extends MetricTestBase {
 
         _mockResults.setTotalCount(_query, _source, 5);
 
+        _details1.setRank(5);
         _mockResults.addResult(_query, _source, _details1);
         _mockResults.setFirstHit(_query, _source, _details1);
 
