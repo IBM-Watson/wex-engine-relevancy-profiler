@@ -20,6 +20,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class XMLFeedFetcher implements IResultFetcher {
@@ -30,6 +32,10 @@ public class XMLFeedFetcher implements IResultFetcher {
     private int _sleepTime = 0;
     private int _numberOfThreads = 20;
     private String _displayName = "xml-feed-display";
+
+    private int awaitingCompletion = 0;
+    private final Object lock = new Object();
+
 
     public XMLFeedFetcher(ProfilerOptions options) {
         _urlRoot = options.getEngineEndpoint();
@@ -44,58 +50,106 @@ public class XMLFeedFetcher implements IResultFetcher {
 
 
 
-    public ProfilerResultSet collectResults(GroundTruth golden)
+    public ProfilerResultSet collectResults(final GroundTruth golden)
     {
-        ProfilerResultSet results = new ProfilerResultSet();
+        ExecutorService threadExecutor = Executors.newFixedThreadPool(_numberOfThreads);
 
-        for (Query query : golden.getQueries())
+        final ProfilerResultSet results = new ProfilerResultSet();
+
+        for (final Query query : golden.getQueries())
         {
-            String xml = doQuery(query.getQueryString(), query.getSource());
-            Document xmlDoc = buildXmlDocument(xml);
-            int totalResults = getResultsCount(xmlDoc);
-            NodeList records = getDocumentResults(xmlDoc);
+            Runnable queryWorker = new Runnable() {
+                public void run() {
+                    String xml = doQuery(query.getQueryString(), query.getSource());
+                    Document xmlDoc = buildXmlDocument(xml);
+                    int totalResults = getResultsCount(xmlDoc);
+                    NodeList records = getDocumentResults(xmlDoc);
 
-            ResultDetails firstResult = getFirstResult(records);
+                    ResultDetails firstResult = getFirstResult(records);
 
-            results.setTotalCount(query.getQueryString(), query.getSource(), totalResults);
+                    results.setTotalCount(query.getQueryString(), query.getSource(), totalResults);
 
-            if (firstResult == null)
-            {
-                for (Expectation expectation : golden.getExpectationsFor(query))
-                {
-                    results.addResultNotFound(expectation.getQuery(), expectation.getSource(), expectation.getUrl());
-                }
-            }
-            else
-            {
-                results.setFirstHit(query.getQueryString(), query.getSource(), firstResult);
-
-                for (Expectation expectation : golden.getExpectationsFor(query))
-                {
-                    if (firstResult.keysMatch(expectation.getUrl()))
+                    if (firstResult == null)
                     {
-                        results.addResult(expectation.getQuery(), expectation.getSource(), firstResult);
-                    }
-                    else
-                    {
-                        // this can be optimized a bit futher, maybe take a list of expectations and return
-                        // the findings instead of just doing one at a time
-                        ResultDetails interesting = getInterestingResult(records, expectation);
-                        if (interesting == null)
+                        for (Expectation expectation : golden.getExpectationsFor(query))
                         {
                             results.addResultNotFound(expectation.getQuery(), expectation.getSource(), expectation.getUrl());
                         }
-                        else
+                    }
+                    else
+                    {
+                        results.setFirstHit(query.getQueryString(), query.getSource(), firstResult);
+
+                        for (Expectation expectation : golden.getExpectationsFor(query))
                         {
-                            results.addResult(expectation.getQuery(), expectation.getSource(), interesting);
+                            if (firstResult.keysMatch(expectation.getUrl()))
+                            {
+                                results.addResult(expectation.getQuery(), expectation.getSource(), firstResult);
+                            }
+                            else
+                            {
+                                // this can be optimized a bit futher, maybe take a list of expectations and return
+                                // the findings instead of just doing one at a time
+                                ResultDetails interesting = getInterestingResult(records, expectation);
+                                if (interesting == null)
+                                {
+                                    results.addResultNotFound(expectation.getQuery(), expectation.getSource(), expectation.getUrl());
+                                }
+                                else
+                                {
+                                    results.addResult(expectation.getQuery(), expectation.getSource(), interesting);
+                                }
+                            }
                         }
                     }
+
+                    waitALittle();
+                    workerDone();
                 }
+            };
+
+            synchronized(lock) {
+                awaitingCompletion++;
+                lock.notifyAll();
             }
+
+            threadExecutor.execute(queryWorker);
+        }
+
+        try {
+            while (awaitingCompletion > 0) {
+                Thread.sleep(1000);
+            }
+            threadExecutor.shutdown();
+            // threadExecutor.awaitTermination(5, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         return results;
     }
+
+
+
+    private void workerDone() {
+        synchronized (lock) {
+            awaitingCompletion--;
+            lock.notifyAll();
+        }
+    }
+
+    private void waitALittle() {
+        if (_sleepTime > 0)
+        {
+            System.out.println("Waiting " + _sleepTime + "ms before doing next query...");
+            try {
+                Thread.sleep(_sleepTime);
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 
 
 
