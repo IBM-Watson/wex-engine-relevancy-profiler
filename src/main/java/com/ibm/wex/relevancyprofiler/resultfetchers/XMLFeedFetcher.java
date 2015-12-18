@@ -319,7 +319,7 @@ public class XMLFeedFetcher implements IResultFetcher {
 
 
 
-    private ResultDetails createRankedResultFromXML(Element xml) {
+    protected ResultDetails createRankedResultFromXML(Element xml) {
         // have to use both because either one could have
         // been given to us to verify
         String url = xml.getAttribute("url");  // debug version returns vse-key

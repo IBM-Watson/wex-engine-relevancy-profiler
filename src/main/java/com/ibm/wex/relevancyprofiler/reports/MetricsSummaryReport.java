@@ -4,7 +4,7 @@ package com.ibm.wex.relevancyprofiler.reports;
 import com.ibm.wex.relevancyprofiler.metrics.*;
 import com.ibm.wex.relevancyprofiler.resultfetchers.ProfilerResultSet;
 
-public class MetricsSummaryReport {
+public class MetricsSummaryReport implements IReport {
 
     // should probably take a stream or something...
     public void writeReport(ProfilerResultSet results) {

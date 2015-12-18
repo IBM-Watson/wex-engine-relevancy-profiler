@@ -67,6 +67,18 @@ public class ProfilerResultSet {
     }
 
 
+    public Collection<ProfilerResult> getResultsWithExpectationsNotFoud() {
+        Collection<ProfilerResult> zeroResultQueries = new ArrayList<ProfilerResult>();
+        for (ProfilerResult r : _results.values()) {
+            if (r.getTotalResults() == 0) {
+                zeroResultQueries.add(r);
+            }
+        }
+
+        return zeroResultQueries;
+    }
+
+
     public int getCountOfExpectedNotFound() {
         int expectedNotFound = 0;
         for (ProfilerResult r : _results.values()) {
@@ -75,4 +87,6 @@ public class ProfilerResultSet {
 
         return expectedNotFound;
     }
+
+
 }

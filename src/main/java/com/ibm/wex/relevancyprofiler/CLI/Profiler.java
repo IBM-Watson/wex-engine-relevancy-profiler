@@ -1,9 +1,14 @@
 package com.ibm.wex.relevancyprofiler.CLI;
 
+import com.ibm.wex.relevancyprofiler.reports.IReport;
 import com.ibm.wex.relevancyprofiler.reports.MetricsSummaryReport;
+import com.ibm.wex.relevancyprofiler.reports.NoResultsQueryReport;
 import com.ibm.wex.relevancyprofiler.resultfetchers.*;
 import com.ibm.wex.relevancyprofiler.groundtruth.GroundTruth;
 import com.ibm.wex.relevancyprofiler.groundtruth.GroundTruthReader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Profiler {
@@ -32,30 +37,14 @@ public class Profiler {
         }
 
         // Run the reports
-        MetricsSummaryReport r = new MetricsSummaryReport();
-        r.writeReport(results);
+        List<IReport> reports = new ArrayList<IReport>();
 
+        reports.add(new MetricsSummaryReport());
+        reports.add(new NoResultsQueryReport(settings));
 
-
-
-
-		// write out the results
-//		System.out.println("Writing all results to " + _outPath + "...");
-//		List<IResultsFilter> filters = new ArrayList<IResultsFilter>();
-//
-//		filters.add(new AllResultsFilter());
-//		filters.add(new QueriesWithNoResultsFilter());
-//		filters.add(new ExpectedFoundResultsFilter());
-//		filters.add(new FirstHitsFilter());
-//		filters.add(new ExpectedNotFoundFilter());
-//		filters.add(new SummaryFilter(_project, _urlRoot, _inPath,_maxResults));
-//
-//		for (IResultsFilter filter : filters) {
-//			System.out.println("Saving data to " + filter.getFileName() + "...");
-//			filter.saveResults(_outPath, queries);
-//		}
-//
-//		System.out.println("Done.");
+        for (IReport r : reports) {
+            r.writeReport(results);
+        }
 	}
 
 
