@@ -50,6 +50,7 @@ public class XMLFeedFetcher implements IResultFetcher {
 
 
 
+
     public ProfilerResultSet collectResults(final GroundTruth golden)
     {
         ExecutorService threadExecutor = Executors.newFixedThreadPool(_numberOfThreads);
@@ -299,7 +300,6 @@ public class XMLFeedFetcher implements IResultFetcher {
     }
 
     private String CreateCgiParams(String query, String bundle) throws UnsupportedEncodingException {
-        // http://localhost/vivisimo/cgi-bin/query-meta.exe?v%3Asources=example-metadata&v%3Aproject=query-meta&render.function=xml-feed-display-debug&query=
         StringBuilder cgi = new StringBuilder();
         if (bundle != null) {
             cgi.append("?v:sources=").append(bundle);
